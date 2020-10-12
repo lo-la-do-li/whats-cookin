@@ -5,10 +5,52 @@ const Recipe = require('../src/Recipe');
 const newRecipe = require('../data/recipes');
 
 describe('Recipe', () => {
-  let newRecipe, ingredient1, ingredient2, ingredient3, instruction1, instruction2, instruction3, instruction4;
+  let newRecipe, ingredient1, ingredient2, ingredient3, instruction1, instruction2;
 
   beforeEach(() => {
-    newRecipe = new Recipe(595736, "https://spoonacular.com/recipeImages/595736-556x370.jpg", [ingredient1, ingredient2, ingredient3], [instruction1, instruction2, instruction3, instruction4], "Loaded Chocolate Chip Pudding Cookie Cups", ["antipasti", "starter", "snack", "appetizer"]);
+
+    ingredient1 = {
+      "id": 20081,
+      "quantity": {
+        "amount": 1.5,
+        "unit": "c"
+      }
+    }
+
+    ingredient2 = {
+      "id": 18372,
+      "quantity": {
+        "amount": 0.5,
+        "unit": "tsp"
+      }
+    }
+
+    ingredient3 = {
+      "id": 1123,
+      "quantity": {
+        "amount": 1,
+        "unit": "large"
+      }
+    }
+    ingredient4 = {
+      "id": 19335,
+      "quantity": {
+        "amount": 0.5,
+        "unit": "c"
+      }
+    }
+
+    instruction1 = {
+      "instruction": "In a large mixing bowl, whisk together the dry ingredients (flour, pudding mix, soda and salt). Set aside.In a large mixing bowl of a stand mixer, cream butter for 30 seconds. Gradually add granulated sugar and brown sugar and cream until light and fluffy.",
+      "number": 1
+    }
+
+    instruction2 = {
+      "instruction": "Add egg and vanilla and mix until combined.",
+      "number": 2
+    }
+
+    newRecipe = new Recipe(595736, "https://spoonacular.com/recipeImages/595736-556x370.jpg", [ingredient1, ingredient2, ingredient3], [instruction1, instruction2], "Loaded Chocolate Chip Pudding Cookie Cups", ["antipasti", "starter", "snack", "appetizer"]);
   });
 
   it('should be a function', () => {
@@ -37,12 +79,12 @@ describe('Recipe', () => {
   });
 
   it('should have instructions', () => {
-    expect(newRecipe.instructions).to.deep.equal([instruction1, instruction2, instruction3, instruction4]);
+    expect(newRecipe.instructions).to.deep.equal([instruction1, instruction2]);
   });
 
   it('should contain an array of instructions', () => {
     expect(newRecipe.instructions).to.be.a('array');
-    expect(newRecipe.instructions.length).to.deep.equal(4);
+    expect(newRecipe.instructions.length).to.deep.equal(2);
   });
 
   it('should have a name', () => {
