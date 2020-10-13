@@ -20,8 +20,31 @@ class User {
     this.recipesToCook.push(recipe)
   }
   
+  filterFavoriteRecipes(tag) {
+    return this.favoriteRecipes.filter(recipe => {
+     return recipe.tags.includes(tag)
+    })
+  }
+
+  filterRecipiesToCook(tag) {
+    return this.recipesToCook.filter(recipe => {
+     return recipe.tags.includes(tag)
+    })
+  }
+
+  searchFavoriteRecipesByName(nameInput) {
+    let nameValue = nameInput
+     return this.favoriteRecipes.filter(recipe => {
+      if(recipe.name.includes(nameValue)) {
+        return recipe
+      } else {
+        return "No recipes match that title"
+      }
+    })
+  }
 }
 
+
 if (typeof module !== 'undefined') {
-     module.exports = User; 
-} 
+    module.exports = User;
+}

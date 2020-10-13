@@ -139,5 +139,29 @@ describe('User', () => {
      
      expect(user1.recipesToCook.length).to.equal(2)
    })
-   
+
+   it('should filter favorite recipes by tag', () => {
+    user1.addFavoriteRecipes(recipe1)
+    user1.addFavoriteRecipes(recipe2)
+    user1.filterFavoriteRecipes('starter')
+
+     expect(user1.filterFavoriteRecipes('starter')).to.deep.equal([recipe1])
+   })
+
+   it('should filter recipies to cook by tag', () => {
+    user1.addRecipiesToCook(recipe1)
+    user1.addRecipiesToCook(recipe2)
+    user1.filterRecipiesToCook('lunch')
+
+    expect(user1.filterRecipiesToCook('lunch')).to.deep.equal([recipe2])
+   })
+
+   it('should search my favorite recipies by name', () => {
+    user1.addFavoriteRecipes(recipe1)
+    user1.addFavoriteRecipes(recipe2)
+    user1.searchFavoriteRecipesByName('Pork Chops')
+
+    expect(user1.searchFavoriteRecipesByName('Pork Chops')).to.deep.equal([recipe2])
+   })
+
 })
