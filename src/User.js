@@ -42,6 +42,13 @@ class User {
       }
     })
   }
+  
+  searchFavoriteRecipesByName(nameInput) {
+    let recipeMatches = this.favoriteRecipes.filter(recipe => {
+      return recipe.name.includes(nameInput)
+    })
+    return recipeMatches.length !== 0 ? recipeMatches : "No recipes match that title"
+  }
 }
 
 
