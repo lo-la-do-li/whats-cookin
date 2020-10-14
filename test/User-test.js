@@ -161,7 +161,15 @@ describe('User', () => {
     user1.addFavoriteRecipes(recipe2)
    
     expect(user1.searchFavoriteRecipesByName('Pokie')).to.equal("No recipes match that title")
-    expect(user1.searchFavoriteRecipesByName('Pork')).to.deep.equal([recipe2])
+    expect(user1.searchFavoriteRecipesByName('pork')).to.deep.equal([recipe2])
+    expect(user1.searchFavoriteRecipesByName('Chocolate')).to.deep.equal([recipe1])
    })
+   
+   // it('should search my favorite recipies by ingredient', () => {
+   //   user1.addFavoriteRecipes(recipe1)
+   //   user1.addFavoriteRecipes(recipe2)
+   // 
+   //   expect(user1.searchFavoriteRecipesByIngredient('chocolate')).to.deep.equal([recipie1])
+   // })
 
 })
