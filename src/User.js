@@ -63,7 +63,7 @@ class User {
         return ingredient.id
       
     })
-    
+    console.log(ingredientId)
     
   }
 }

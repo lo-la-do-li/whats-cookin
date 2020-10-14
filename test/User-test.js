@@ -3,6 +3,7 @@ const expect = chai.expect;
 
 const User = require('../src/User');
 const Recipe = require('../src/Recipe');
+const Ingredient = require('../data/ingredients.js');
 
 describe('User', () => {
   let user1, recipe1, recipe2
@@ -165,11 +166,15 @@ describe('User', () => {
     expect(user1.searchFavoriteRecipesByName('Chocolate')).to.deep.equal([recipe1])
    })
    
-   // it('should search my favorite recipies by ingredient', () => {
-   //   user1.addFavoriteRecipes(recipe1)
-   //   user1.addFavoriteRecipes(recipe2)
-   // 
-   //   expect(user1.searchFavoriteRecipesByIngredient('chocolate')).to.deep.equal([recipie1])
-   // })
+   it('should search my favorite recipies by ingredient', () => {
+     user1.addFavoriteRecipes(recipe1)
+     user1.addFavoriteRecipes(recipe2)
+   
+     expect(user1.searchFavoriteRecipesByIngredient('chocolate')).to.deep.equal([recipe1])
+   })
 
 })
+
+
+
+
