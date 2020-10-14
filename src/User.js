@@ -1,3 +1,5 @@
+const ingredientsData = require('../data/ingredients.js');
+
 class User {
   constructor (name, id, pantry) {
     this.name = name;
@@ -52,9 +54,18 @@ class User {
     return recipeMatches.length !== 0 ? recipeMatches : "No recipes match that title"
   }
   
-  // searchFavoriteRecipesByIngredient(ingredientInput) {
-  // 
-  // }
+  searchFavoriteRecipesByIngredient(ingredientInput) {
+  
+    let searchResults = [];
+    const ingredientId = ingredientsData.find(ingredient => {
+      if(ingredient.name === ingredientInput)
+        console.log(ingredient.id)
+        return ingredient.id
+      
+    })
+    
+    
+  }
 }
 
 
