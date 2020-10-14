@@ -156,12 +156,12 @@ describe('User', () => {
     expect(user1.filterRecipiesToCook('lunch')).to.deep.equal([recipe2])
    })
 
-   it('should search my favorite recipies by name', () => {
+   it('should search my favorite recipes by name', () => {
     user1.addFavoriteRecipes(recipe1)
     user1.addFavoriteRecipes(recipe2)
-    user1.searchFavoriteRecipesByName('Pork Chops')
-
-    expect(user1.searchFavoriteRecipesByName('Pork Chops')).to.deep.equal([recipe2])
+   
+    expect(user1.searchFavoriteRecipesByName('Pokie')).to.equal("No recipes match that title")
+    expect(user1.searchFavoriteRecipesByName('Pork')).to.deep.equal([recipe2])
    })
 
 })
