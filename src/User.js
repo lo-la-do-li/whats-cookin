@@ -44,11 +44,17 @@ class User {
   }
   
   searchFavoriteRecipesByName(nameInput) {
-    let recipeMatches = this.favoriteRecipes.filter(recipe => {
-      return recipe.name.includes(nameInput)
+    let recipeMatches = new Set()
+    let newInput = nameInput.toLowerCase()
+    recipeMatches = this.favoriteRecipes.filter(recipe => {
+      return recipe.name.toLowerCase().includes(newInput)
     })
     return recipeMatches.length !== 0 ? recipeMatches : "No recipes match that title"
   }
+  
+  // searchFavoriteRecipesByIngredient(ingredientInput) {
+  // 
+  // }
 }
 
 
