@@ -2,7 +2,7 @@ const chai = require('chai');
 const expect = chai.expect;
 
 const Recipe = require('../src/Recipe');
-const newRecipe = require('../data/recipes');
+// const newRecipe = require('../data/recipes');
 
 describe('Recipe', () => {
   let newRecipe, ingredient1, ingredient2, ingredient3, instruction1, instruction2;
@@ -32,14 +32,7 @@ describe('Recipe', () => {
         "unit": "large"
       }
     }
-    ingredient4 = {
-      "id": 19335,
-      "quantity": {
-        "amount": 0.5,
-        "unit": "c"
-      }
-    }
-
+  
     instruction1 = {
       "instruction": "In a large mixing bowl, whisk together the dry ingredients (flour, pudding mix, soda and salt). Set aside.In a large mixing bowl of a stand mixer, cream butter for 30 seconds. Gradually add granulated sugar and brown sugar and cream until light and fluffy.",
       "number": 1
@@ -67,7 +60,7 @@ describe('Recipe', () => {
 
   it('should have an image', () => {
     expect(newRecipe.image).to.equal("https://spoonacular.com/recipeImages/595736-556x370.jpg",
-    "ingredients");
+      "ingredients");
   });
 
   it('should have ingredients', () => {
