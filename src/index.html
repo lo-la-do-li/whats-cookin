@@ -1,15 +1,104 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="UTF-8">
-    <title>Whats Cookin</title>
-  </head>
-  <body>
-    <h1>Whats Cookin</h1>
-
-    <script type="text/javascript" src="../data/users.js"></script>
-    <script type="text/javascript" src="../data/recipes.js"></script>
-    <script type="text/javascript" src="../data/ingredients.js"></script>
-    <script type="text/javascript" src="./scripts.js"></script>
-  </body>
-</html>
+<head>
+  <meta charset="UTF-8">
+  <title>Whats Cookin</title>
+  <link rel="stylesheet" type="text/css" href="styles.css"/>
+</head>
+<body>
+  <div class="wrapper">
+    <header>
+      <h1 class="whats-cookin">What's Cookin in User's Kitchen?</h1>
+      <nav>
+        <ul>
+          <li><a href="" class="current">All Recipes</a></li>
+          <li><a href="">Favorite Recipes</a></li>
+          <li><a href="">Recipes to Cook</a></li>
+          <li><a href="">My Pantry</a></li>
+          <li><a href="">Shopping List</a></li>
+        </ul>
+      </nav>
+    </header>
+    <section class="recipes">
+      <article>
+        <figure>
+          <img class="recipe-image" src="https://spoonacular.com/recipeImages/595736-556x370.jpg",
+          "ingredients" alt="Loaded Chocolate Chip Pudding Cookie Cups" />
+          <figcaption></figcaption>
+        </figure>
+        <hgroup>
+          <h2>Loaded Chocolate Chip Pudding Cookie Cups</h2>
+          <h3>tag tag tag</h3>
+        </hgroup>
+        <p>
+          <button>Like</button>
+          <button>Remove</button>
+        </p>
+        <p>
+          <button class="trigger">Click here to see more</button>
+          <div class="modal">
+            <div class="modal-content">
+              <span class="close-button">x</span>
+              <h1>Instructions</h1>
+              <p> 1. In a large mixing bowl, whisk together the dry ingredients (flour, pudding mix, soda and salt). Set aside.In a large mixing bowl of a stand mixer, cream butter for 30 seconds. Gradually add granulated sugar and brown sugar and cream until light and fluffy.<br>
+                2. Add egg and vanilla and mix until combined.<br>
+                3. Add dry ingredients and mix on low just until incorporated. Stir in chocolate chips.Scoop the dough into 1,5 tablespoon size balls and place on a plate or sheet. Cover with saran wrap and chill at least 2 hours or overnight.When ready to bake, preheat oven to 350 degrees.<br>
+                4. Place the cookie dough balls into ungreased muffin pan. Sprinkle with sea salt.<br>
+                5. Bake for 9 to 10 minutes, or until you see the edges start to brown.</p>
+                <h3>Ingredients</h3>
+              </div>
+            </div>
+          </p>
+        </article>
+        <article>
+          <figure>
+            <img class="recipe-image"
+            src="https://spoonacular.com/recipeImages/678353-556x370.jpg" alt="Maple Dijon Apple Cider Grilled Pork Chops" />
+            <figcaption></figcaption>
+          </figure>
+          <hgroup>
+            <h2>Maple Dijon Apple Cider Grilled Pork Chops</h2>
+            <h3>tag tag tag tag</h3>
+          </hgroup>
+          <p>
+            <button>Like</button>
+            <button>Remove</button>
+          </p>
+          <p>
+            <button class="trigger">Click here to see more</button>
+            <div class="modal">
+              <div class="modal-content">
+                <span class="close-button">x</span>
+                <h1>Instructions</h1>
+                <h3>Ingredients</h3>
+              </div>
+            </div>
+          </p>
+        </article>
+      </section>
+      <aside>
+        <section class="shopping-list">
+          <h2>Shopping List</h2>
+          <a href="">Item, qty, cost</a>
+          <a href="">Item, qty, cost</a>
+          <a href="">Item, qty, cost</a>
+          <a href="">Item, qty, cost</a>
+        </section>
+        <section class="something-here">
+          <h2>Something Here</h2>
+          <p>Smaller Thing<br />
+            and here<br />
+            and here<br />
+            and so on...</p>
+        </section>
+      </aside>
+      <footer>
+    A Project From Turing School of Software & Design
+      </footer>
+    </div><!-- .wrapper -->
+      <script type="text/javascript" src="../data/users.js"></script>
+      <script type="text/javascript" src="../data/recipes.js"></script>
+      <script type="text/javascript" src="../data/ingredients.js"></script>
+      <script type="text/javascript" src="./scripts.js"></script>
+    </body>
+  </html>
