@@ -68,7 +68,7 @@ class User {
       return acc
     }, []);
     searchResults = this.favoriteRecipes.reduce((acc, recipe) => {
-       recipe.ingredients.filter(ingredient => {
+      recipe.ingredients.filter(ingredient => {
         return ingredientMatches.includes(ingredient.id) ? acc.push(recipe) : "No ingredient matches"
         // console.log(filterIngredients)
       })
