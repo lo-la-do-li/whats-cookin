@@ -24,24 +24,13 @@ class User {
   
   filterFavoriteRecipes(tag) {
     return this.favoriteRecipes.filter(recipe => {
-     return recipe.tags.includes(tag)
+      return recipe.tags.includes(tag)
     })
   }
-
+  
   filterRecipiesToCook(tag) {
     return this.recipesToCook.filter(recipe => {
-     return recipe.tags.includes(tag)
-    })
-  }
-
-  searchFavoriteRecipesByName(nameInput) {
-    let nameValue = nameInput
-     return this.favoriteRecipes.filter(recipe => {
-      if(recipe.name.includes(nameValue)) {
-        return recipe
-      } else {
-        return "No recipes match that title"
-      }
+      return recipe.tags.includes(tag)
     })
   }
   
@@ -54,21 +43,43 @@ class User {
     return recipeMatches.length !== 0 ? recipeMatches : "No recipes match that title"
   }
   
-  searchFavoriteRecipesByIngredient(ingredientInput) {
-  
-    let searchResults = [];
-    const ingredientId = ingredientsData.find(ingredient => {
-      if(ingredient.name === ingredientInput)
-        console.log(ingredient.id)
-        return ingredient.id
-      
+  findIngredients(ingredientInput) {
+    let newInput = ingredientInput.toLowerCase();
+    return ingredientsData.filter(ingredient => {
+      return ingredient.name === newInput
     })
-    console.log(ingredientId)
-    
+  }
+  
+  searchFavoriteRecipesByIngredient(ingredientInput) {
+    if (ingredientInput === ' ') {
+      return "Please enter an ingredient to search for"
+    }
+    let newInput = ingredientInput.toLowerCase();
+    let foundIngredients = this.findIngredients(ingredientInput);
+    // console.log('Ingredient in ingredientsData:', foundIngredients)
+    let searchResults = new Set()
+    let ingredientMatches = foundIngredients.reduce((acc, ingredient) => {
+      let lowerIngredient = ingredient.name.toLowerCase();
+      // if (ingredient.name.includes(newInput)) {
+      if (lowerIngredient.includes(newInput)) {
+        acc.push(ingredient.id)
+      }
+      // console.log('Matching Ingredient ID:', acc)
+      return acc
+    }, []);
+    searchResults = this.favoriteRecipes.reduce((acc, recipe) => {
+       recipe.ingredients.filter(ingredient => {
+        return ingredientMatches.includes(ingredient.id) ? acc.push(recipe) : "No ingredient matches"
+        // console.log(filterIngredients)
+      })
+      return acc
+    }, [])
+    return searchResults
   }
 }
 
 
+
 if (typeof module !== 'undefined') {
-    module.exports = User;
+  module.exports = User;
 }
