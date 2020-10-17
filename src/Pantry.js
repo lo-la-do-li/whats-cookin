@@ -1,7 +1,7 @@
 class Pantry {
   constructor(user) {
     this.pantry = user.pantry;
-    this.recipe = user.recipesToCook;
+    this.recipes = user.recipesToCook;
     this.shoppingList = [];
   }
 }

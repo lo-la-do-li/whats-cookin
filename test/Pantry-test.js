@@ -62,8 +62,7 @@ describe('Pantry', () => {
             }
           ],
           name: "Loaded Chocolate Chip Pudding Cookie Cups",
-          tags: ["antipasti",
-          "starter"]
+          tags: ["antipasti", "starter"]
         });
 
         recipe2 = new Recipe(
@@ -96,6 +95,7 @@ describe('Pantry', () => {
             name: "Maple Dijon Apple Cider Grilled Pork Chops",
             tags: ["lunch", "main course"]
           });
+
           user.addRecipiesToCook(recipe2);
           userPantry = new Pantry(user);
         });
@@ -109,11 +109,11 @@ describe('Pantry', () => {
         });
 
         it('should have a pantry property with an array of ingredients in user\'s pantry', () => {
-          expect(userPantry.pantry).to.be.an('array').with.a.lengthOf(3);
+          expect(userPantry.pantry.length).to.equal(3);
         });
 
         it('should store an instance of Recipe that user wants to make', () => {
-          expect(userPantry.recipe[0]).to.be.an.instanceof(Recipe);
+          expect(userPantry.recipes[0]).to.be.an.instanceof(Recipe);
         });
         
       });
