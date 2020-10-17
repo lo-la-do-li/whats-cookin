@@ -27,6 +27,14 @@ describe('Pantry', () => {
           {
             "ingredient": 1082047,
             "amount": 10
+          },
+          {
+            "ingredient": 20081,
+            "amount": 2
+          },
+          {
+            "ingredient": 18372,
+            "amount": 2
           }
         ]
       });
@@ -109,11 +117,45 @@ describe('Pantry', () => {
         });
 
         it('should have a pantry property with an array of ingredients in user\'s pantry', () => {
-          expect(userPantry.pantry.length).to.equal(3);
+          expect(userPantry.pantry.length).to.equal(5);
         });
 
         it('should store an instance of Recipe that user wants to make', () => {
           expect(userPantry.recipes[0]).to.be.an.instanceof(Recipe);
         });
         
+        it('should have a shopping list as an array of ingredients needed to cook recipe that is empty by default', () => {
+         expect(userPantry.shoppingList.length).to.equal(0);
+       });
+       
+       it('should be able to check if user has enough ingredients to make recipe', () => {
+         expect(userPantry.checkPantry(recipe1)).to.be.true;
+       });
+       
+      
+      it('should determine if user pantry has enough ingredients to cook a given meal', () => {
+        expect(userPantry.checkPantry(recipe2)).to.be.false;
+      })
+      
+      it('should store a list of out of stock ingredients that are needed to cook a given recipe', () => {
+        userPantry.checkPantry(recipe2)
+      
+        expect(userPantry.shoppingList.length).to.equal(2);
       });
+      
+      it('should return the array of users shopping list', () => {
+        userPantry.checkPantry(recipe2);
+        
+        expect(userPantry.returnShoppingList()).to.be.an('array')
+      })
+});
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
