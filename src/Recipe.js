@@ -1,15 +1,14 @@
-
 class Recipe {
-  constructor(id, image, ingredients, instructions, name, tags) {
-    this.id = id;
-    this.image = image;
-    this.ingredients = ingredients;
-    this.instructions = instructions;
-    this.name = name;
-    this.tags = tags;
+  constructor(recipe) {
+    this.id = recipe.id;
+    this.image = recipe.image;
+    this.ingredients = recipe.ingredients;
+    this.instructions = recipe.instructions;
+    this.name = recipe.name;
+    this.tags = recipe.tags;
   }
 }
 
-if (typeof module !== 'undefined') {
-  module.exports = Recipe;
-}
+if (typeof module !== 'undefined') { 
+   module.exports = Recipe; 
+ }

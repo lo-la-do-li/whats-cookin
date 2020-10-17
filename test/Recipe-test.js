@@ -2,7 +2,7 @@ const chai = require('chai');
 const expect = chai.expect;
 
 const Recipe = require('../src/Recipe');
-// const newRecipe = require('../data/recipes');
+const newRecipe = require('../data/recipes');
 
 describe('Recipe', () => {
   let newRecipe, ingredient1, ingredient2, ingredient3, instruction1, instruction2;
@@ -32,7 +32,14 @@ describe('Recipe', () => {
         "unit": "large"
       }
     }
-  
+    ingredient4 = {
+      "id": 19335,
+      "quantity": {
+        "amount": 0.5,
+        "unit": "c"
+      }
+    }
+
     instruction1 = {
       "instruction": "In a large mixing bowl, whisk together the dry ingredients (flour, pudding mix, soda and salt). Set aside.In a large mixing bowl of a stand mixer, cream butter for 30 seconds. Gradually add granulated sugar and brown sugar and cream until light and fluffy.",
       "number": 1
@@ -43,8 +50,15 @@ describe('Recipe', () => {
       "number": 2
     }
 
-    newRecipe = new Recipe(595736, "https://spoonacular.com/recipeImages/595736-556x370.jpg", [ingredient1, ingredient2, ingredient3], [instruction1, instruction2], "Loaded Chocolate Chip Pudding Cookie Cups", ["antipasti", "starter", "snack", "appetizer"]);
+    newRecipe = new Recipe(
+        {
+        id: 595736,
+        image: "https://spoonacular.com/recipeImages/595736-556x370.jpg", ingredients: [ingredient1, ingredient2, ingredient3],
+        instructions: [instruction1, instruction2],
+        name: "Loaded Chocolate Chip Pudding Cookie Cups",
+        tags: ["antipasti", "starter", "snack", "appetizer"]
   });
+});
 
   it('should be a function', () => {
     expect(Recipe).to.be.a('function');
@@ -60,7 +74,7 @@ describe('Recipe', () => {
 
   it('should have an image', () => {
     expect(newRecipe.image).to.equal("https://spoonacular.com/recipeImages/595736-556x370.jpg",
-      "ingredients");
+    "ingredients");
   });
 
   it('should have ingredients', () => {
