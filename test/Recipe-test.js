@@ -32,13 +32,6 @@ describe('Recipe', () => {
         "unit": "large"
       }
     }
-    ingredient4 = {
-      "id": 19335,
-      "quantity": {
-        "amount": 0.5,
-        "unit": "c"
-      }
-    }
 
     instruction1 = {
       "instruction": "In a large mixing bowl, whisk together the dry ingredients (flour, pudding mix, soda and salt). Set aside.In a large mixing bowl of a stand mixer, cream butter for 30 seconds. Gradually add granulated sugar and brown sugar and cream until light and fluffy.",
@@ -101,9 +94,22 @@ describe('Recipe', () => {
   it('should have tags', () => {
     expect(newRecipe.tags).to.deep.equal(["antipasti", "starter", "snack", "appetizer"])
   });
-
+  
   it('should contain an array of tags', () => {
     expect(newRecipe.tags).to.be.a('array');
     expect(newRecipe.tags.length).to.deep.equal(4);
+  });
+
+  it('should be able to provide missing ingredient info', () => {
+    expect(newRecipe.getIngredientsData().length).to.deep.equal(3);
+  });
+
+  it('should combine ingredients property with ingredients data set into one complete ingredient object in an array', () => {
+    expect(newRecipe.mapIngredientsInfo()).to.be.an('array');
+    expect(newRecipe.mapIngredientsInfo()[0].name).to.equal('wheat flour');
+  });
+
+  it('should be able to return total cost of recipe', () => {
+    expect(newRecipe.getCostOfRecipe()).to.equal(976);
   });
 });
