@@ -1,22 +1,16 @@
 // let recipeSet = [];
 
-// let modal;
-// let trigger;
-// let closeButton;
-let modal = document.querySelectorAll(".modal");
-let trigger = document.querySelectorAll(".trigger");
-let closeButton = document.querySelectorAll(".close-button");
+let modal;
+let trigger;
+let closeButton;
+
 const recipesDisplay = document.querySelector('.recipes-display');
 
-// trigger.addEventListener("click", toggleModal);
-// closeButton.addEventListener("click", toggleModal);
-window.addEventListener("click", windowOnClick);
-window.addEventListener('load', onLoad
-document.addEventListener('click', function(e){
-   if(e.target && e.target.id === 'brnPrepend'){
-        toggleModal()
-    }
-});
+// trigger.addEventListener('click', toggleModal);
+// closeButton.addEventListener('click', toggleModal);
+window.addEventListener('click', windowOnClick);
+window.addEventListener('load', onLoad);
+
 
 function onLoad() {
   getRandomUser();
@@ -25,10 +19,12 @@ function onLoad() {
 }
 
 function callModalListeners() {
+  modal = document.querySelector(".modal");
+  trigger = document.querySelector(".trigger");
+  closeButton = document.querySelector(".close-button");
 
-  trigger.addEventListener("click", toggleModal);
-  closeButton.addEventListener("click", toggleModal);
-
+  trigger.addEventListener('click', toggleModal);
+  closeButton.addEventListener('click', toggleModal);
 }
 
 function toggleModal(event) {
@@ -36,7 +32,7 @@ function toggleModal(event) {
 }
 
 function windowOnClick(event) {
-  if (event.target === modal) {
+  if (event.target && event.id === modal) {
     toggleModal();
     //add other window-click event targets here
   }
@@ -86,10 +82,10 @@ const recipeBlock =
       <button>Remove</button>
     </p>
     <p>
-      <button class="trigger">Click here to see more</button>
-      <div class="modal">
+      <button class="trigger" id="trigger">Click here to see more</button>
+      <div class="modal" id="modal">
         <div class="modal-content">
-          <span class="close-button">x</span>
+          <span class="close-button" id="close-button">x</span>
           <h1>Instructions</h1>
             <p>${recipe.instructions}</p>
           <h3>Ingredients</h3>
@@ -100,10 +96,8 @@ const recipeBlock =
     </article>
   `
     recipesDisplay.insertAdjacentHTML('afterend', recipeBlock);
-    });
 
-    // modal = document.querySelectorAll(".modal");
-    // trigger = document.querySelectorAll(".trigger");
-    // closeButton = document.querySelectorAll(".close-button");
-    // callModalListeners();
-  }
+    callModalListeners();
+
+    });
+  };
