@@ -1,17 +1,45 @@
-const modal = document.querySelector(".modal");
-const trigger = document.querySelector(".trigger");
-const closeButton = document.querySelector(".close-button");
+// let recipeSet = [];
 
+// let modal;
+// let trigger;
+// let closeButton;
+let modal = document.querySelectorAll(".modal");
+let trigger = document.querySelectorAll(".trigger");
+let closeButton = document.querySelectorAll(".close-button");
+const recipesDisplay = document.querySelector('.recipes-display');
 
-trigger.addEventListener("click", toggleModal);
-closeButton.addEventListener("click", toggleModal);
+// trigger.addEventListener("click", toggleModal);
+// closeButton.addEventListener("click", toggleModal);
 window.addEventListener("click", windowOnClick);
-window.addEventListener('load', onLoad);
+window.addEventListener('load', onLoad
+document.addEventListener('click', function(e){
+   if(e.target && e.target.id === 'brnPrepend'){
+        toggleModal()
+    }
+});
 
 function onLoad() {
-  getRandomUser()
-  //getRandomUser function
+  getRandomUser();
+  const allRecipes = assignRecipes(recipeData)
+  displayRecipes(allRecipes)
+}
 
+function callModalListeners() {
+
+  trigger.addEventListener("click", toggleModal);
+  closeButton.addEventListener("click", toggleModal);
+
+}
+
+function toggleModal(event) {
+  modal.classList.toggle("show-modal");
+}
+
+function windowOnClick(event) {
+  if (event.target === modal) {
+    toggleModal();
+    //add other window-click event targets here
+  }
 }
 
 function getRandomIndex(arr) {
@@ -25,17 +53,6 @@ function getRandomUser() {
   message.innerHTML = `What's Cookin' in ${user.name}'s Kitchen?`
 }
 
-function toggleModal() {
-  modal.classList.toggle("show-modal");
-}
-
-function windowOnClick(event) {
-  if (event.target === modal) {
-    toggleModal();
-    //add other winow event targets here
-  }
-}
-
 function displayElement(className) {
   document.querySelector(`.${className}`).remove('hidden')
 }
@@ -44,14 +61,21 @@ function hideElement(className) {
   document.querySelector(`.${className}`).add('hidden')
 }
 
-function displayRecipes() {
-recipesData.forEach =
+function displayInstructions(recipe) {
+
+}
+
+function assignRecipes(recipesArray) {
+  return recipesArray.map(recipe => new Recipe(recipe));
+}
+// <section class="recipe-block" id="${recipe.id}">
+function displayRecipes(recipeArray) {
+recipeArray.forEach(recipe => {
+const recipeBlock =
 `
-<section class="recipe-data" id="${recipe.id}">
-  <article>
+  <article class="recipe-block" id="${recipe.id}">
     <figure>
-      <img class="recipe-image" src="${recipe.image}",
-      "ingredients" alt="${recipe.name}" />
+      <img class="recipe-image" src="${recipe.image}" alt="${recipe.name}"/>
     </figure>
     <hgroup>
       <h2>${recipe.name}</h2>
@@ -67,15 +91,19 @@ recipesData.forEach =
         <div class="modal-content">
           <span class="close-button">x</span>
           <h1>Instructions</h1>
-          <p>${recipe.instructions}<br>
-            2. Add egg and vanilla and mix until combined.<br>
-            3. Add dry ingredients and mix on low just until incorporated. Stir in chocolate chips.Scoop the dough into 1,5 tablespoon size balls and place on a plate or sheet. Cover with saran wrap and chill at least 2 hours or overnight.When ready to bake, preheat oven to 350 degrees.<br>
-            4. Place the cookie dough balls into ungreased muffin pan. Sprinkle with sea salt.<br>
-            5. Bake for 9 to 10 minutes, or until you see the edges start to brown.</p>
-            <h3>Ingredients</h3>
+            <p>${recipe.instructions}</p>
+          <h3>Ingredients</h3>
+            <p>${recipe.mapIngredientsInfo()}</p>
           </div>
         </div>
       </p>
     </article>
-    `
+  `
+    recipesDisplay.insertAdjacentHTML('afterend', recipeBlock);
+    });
+
+    // modal = document.querySelectorAll(".modal");
+    // trigger = document.querySelectorAll(".trigger");
+    // closeButton = document.querySelectorAll(".close-button");
+    // callModalListeners();
   }
