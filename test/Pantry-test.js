@@ -91,7 +91,7 @@ describe('Pantry', () => {
                   "amount": 2,
                   "unit": ""
                 }
-              }
+              },
             ],
             instructions:
             [
@@ -143,19 +143,30 @@ describe('Pantry', () => {
         expect(userPantry.shoppingList.length).to.equal(2);
       });
       
-      it('should return the array of users shopping list', () => {
+      
+      it('should update the amount of each ingredient that is being used in the recipe', () => {
         userPantry.checkPantry(recipe2);
         
-        expect(userPantry.returnShoppingList()).to.be.an('array')
+        expect(userPantry.updatePantry(recipe2)).to.deep.equal([
+          { ingredient: 11477, amount: 4 },
+          { ingredient: 11297, amount: 4 },
+          { ingredient: 1082047, amount: 10 },
+          { ingredient: 20081, amount: 2 },
+          { ingredient: 18372, amount: 2 },
+          { ingredient: 1009016, amount: 0 },
+          { ingredient: 9003, amount: 0 }
+        ])
       })
+      
+      it('should add ingredient that the user does not have in their pantry with a quantity of 0', () => {
+        userPantry.checkPantry(recipe2);
+        userPantry.updatePantry(recipe2);
+        
+        expect(userPantry.pantry.length).to.equal(7)
+      })
+      
+      // it('should return the array of users shopping list', () => {
+      //   userPantry.checkPantry(recipe1);
+      //   expect(userPantry.returnShoppingList()).to.be.an('array')
+      // })
 });
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
