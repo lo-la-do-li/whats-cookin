@@ -9,6 +9,7 @@ window.addEventListener("click", windowOnClick);
 window.addEventListener('load', onLoad);
 
 function onLoad() {
+  getRandomUser()
   //getRandomUser function
 
 }
@@ -19,6 +20,9 @@ function getRandomIndex(arr) {
 
 function getRandomUser() {
   user = new User(getRandomIndex(usersData))
+  userPantry = new Pantry(user);
+  let message = document.querySelector('.whats-cookin-message');
+  message.innerHTML = `What's Cookin' in ${user.name}'s Kitchen?`
 }
 
 function toggleModal() {
