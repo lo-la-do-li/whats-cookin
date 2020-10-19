@@ -3,11 +3,14 @@
 let modal;
 let trigger;
 let closeButton;
+let likeBtn
 
 //Query Selectors
 const recipesDisplay = document.querySelector('.recipes-display');
 let instructions = document.querySelector('.instructions');
 let ingredients = document.querySelector('.ingredients');
+let estimatedCost = document.querySelector('.estimated-cost')
+
 
 //Functions//Event Listeners
 // trigger.addEventListener('click', toggleModal);
@@ -16,6 +19,7 @@ window.addEventListener('click', windowOnClick);
 window.addEventListener('load', onLoad);
 recipesDisplay.addEventListener('click', recipeBlockClickHandler)
 
+
 //Functions
 function onLoad() {
   getRandomUser();
@@ -23,6 +27,7 @@ function onLoad() {
   displayRecipes(allRecipes)
 }
 
+//Call
 function recipeBlockClickHandler(event) {
   if (event.target.classList.contains("close-button")) {
     modal.classList.toggle("show-modal")
@@ -40,8 +45,10 @@ function displayModal(recipeID) {
   })
   document.querySelector(`.ingredients`).innerHTML = ''
   document.querySelector(`.instructions`).innerHTML = ''
+  document.querySelector(`.estimated-cost`).innerHTML = ''
   displayRecipeInstructions(foundRecipe, "instructions")
   displayRecipeIngredients(foundRecipe, "ingredients");
+  displayCostOfRecipe(foundRecipe, "estimated-cost")
   modal = document.querySelector(".modal");
   modal.classList.toggle("show-modal")
 }
@@ -62,7 +69,7 @@ function toggleModal(event) {
 function windowOnClick(event) {
   if (event.target && event.id === modal) {
     toggleModal();
-    //add other window-click event targets here
+    //add other window-clickevent targets Here
   }
 }
 
@@ -103,7 +110,7 @@ const recipeBlock =
       <h3>${recipe.tags}</h3>
     </hgroup>
     <p>
-      <button>Like</button>
+      <button class ="like-btn">Like</button>
       <button>Remove</button>
     </p>
       <button class="trigger" id="trigger">Click here to see more</button>
@@ -148,3 +155,11 @@ function getIngredientName(ingredient) {
   })
   return name;
 }
+
+function displayCostOfRecipe(recipe, className) {
+  recipe = new Recipe(recipe)
+  let cost = `¢${recipe.getCostOfRecipe()}`
+  populateModal(cost, className)
+}
+
+
