@@ -11,7 +11,7 @@ let instructions = document.querySelector('.instructions')
 // closeButton.addEventListener('click', toggleModal);
 window.addEventListener('click', windowOnClick);
 window.addEventListener('load', onLoad);
-
+recipesDisplay.addEventListener('click', recipeBlockClickHandler)
 
 function onLoad() {
   getRandomUser();
@@ -85,9 +85,9 @@ const recipeBlock =
         <div class="modal-content">
           <span class="close-button" id="close-button">x</span>
           <h1>Instructions</h1>
-            <p class="instructions">${recipe.instructions}</p>
+            <p class="instructions"></p>
           <h3>Ingredients</h3>
-            <p>${recipe.mapIngredientsInfo()}</p>
+            <p></p>
           </div>
         </div>
       </p>
@@ -96,7 +96,9 @@ const recipeBlock =
     recipesDisplay.insertAdjacentHTML('afterend', recipeBlock);
 
     callModalListeners();
-    displayRecipeInstructions(recipe);
+
+    displayRecipeIngredients(recipe, "ingredients");
+    displayRecipeInstructions(recipe, "instructions")
     });
   };
 
@@ -125,8 +127,7 @@ function displayRecipeInstructions(recipe, className) {
   });
 }
 
-
-    function getIngredientName(ingredient) {
+  function getIngredientName(ingredient) {
   let name;
   ingredientsData.forEach(ingredientData => {
     if (ingredient.id === ingredientData.id) {
@@ -135,4 +136,3 @@ function displayRecipeInstructions(recipe, className) {
   })
   return name;
 }
-  }
