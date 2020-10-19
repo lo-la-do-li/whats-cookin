@@ -36,6 +36,10 @@ function recipeBlockClickHandler(event) {
     let recipeID = event.target.closest(".recipe-block").id
     displayModal(recipeID)
   }
+  if (event.target.classList.contains("like-btn")) {
+    let newRecipe = event.target.closest(".recipe-block").id
+    addToFavorites(newRecipe)
+  }
 }
 
 function displayModal(recipeID) {
@@ -160,6 +164,13 @@ function displayCostOfRecipe(recipe, className) {
   recipe = new Recipe(recipe)
   let cost = `¢${recipe.getCostOfRecipe()}`
   populateModal(cost, className)
+}
+
+function addToFavorites(newRecipe) {
+  const foundRecipe = recipeData.find(recipe => {
+     return recipe.id === +newRecipe
+  })
+    user.addFavoriteRecipes(foundRecipe)
 }
 
 
