@@ -6,26 +6,16 @@ let closeButton;
 
 const recipesDisplay = document.querySelector('.recipes-display');
 let instructions = document.querySelector('.instructions')
+let ingredients = document.querySelector('.ingredients');
 
-// trigger.addEventListener('click', toggleModal);
-// closeButton.addEventListener('click', toggleModal);
 window.addEventListener('click', windowOnClick);
 window.addEventListener('load', onLoad);
 recipesDisplay.addEventListener('click', recipeBlockClickHandler)
 
 function onLoad() {
   getRandomUser();
-  const allRecipes = assignRecipes(recipeData)
-  displayRecipes(allRecipes)
-}
-
-function callModalListeners() {
-  modal = document.querySelector(".modal");
-  trigger = document.querySelector(".trigger");
-  closeButton = document.querySelector(".close-button");
-
-  trigger.addEventListener('click', toggleModal);
-  closeButton.addEventListener('click', toggleModal);
+  const allRecipes = assignRecipes(recipeData);
+  displayRecipes(allRecipes);
 }
 
 function recipeBlockClickHandler(event) {
@@ -38,6 +28,14 @@ function recipeBlockClickHandler(event) {
   }
 }
 
+function callModalListeners() {
+  modal = document.querySelector(".modal");
+  trigger = document.querySelector(".trigger");
+  closeButton = document.querySelector(".close-button");
+
+  trigger.addEventListener('click', toggleModal);
+  closeButton.addEventListener('click', toggleModal);
+}
 
 function toggleModal(event) {
   modal.classList.toggle("show-modal");
