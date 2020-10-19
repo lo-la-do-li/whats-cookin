@@ -100,6 +100,10 @@ const recipeBlock =
     });
   };
 
+  function populateModal(item, className) {
+  document.querySelector(`.${className}`).insertAdjacentHTML('beforeend', item)
+}
+
   function displayRecipeIngredients(recipe, className) {
   recipe.ingredients.forEach(ingredient => {
     ingredient =
