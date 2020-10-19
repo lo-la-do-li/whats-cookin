@@ -5,6 +5,7 @@ let trigger;
 let closeButton;
 
 const recipesDisplay = document.querySelector('.recipes-display');
+let instructions = document.querySelector('.instructions')
 
 // trigger.addEventListener('click', toggleModal);
 // closeButton.addEventListener('click', toggleModal);
@@ -57,16 +58,13 @@ function hideElement(className) {
   document.querySelector(`.${className}`).add('hidden')
 }
 
-function displayInstructions(recipe) {
-
-}
-
 function assignRecipes(recipesArray) {
   return recipesArray.map(recipe => new Recipe(recipe));
 }
-// <section class="recipe-block" id="${recipe.id}">
+
 function displayRecipes(recipeArray) {
 recipeArray.forEach(recipe => {
+
 const recipeBlock =
 `
   <article class="recipe-block" id="${recipe.id}">
@@ -87,7 +85,7 @@ const recipeBlock =
         <div class="modal-content">
           <span class="close-button" id="close-button">x</span>
           <h1>Instructions</h1>
-            <p>${recipe.instructions}</p>
+            <p class="instructions">${recipe.instructions}</p>
           <h3>Ingredients</h3>
             <p>${recipe.mapIngredientsInfo()}</p>
           </div>
@@ -98,6 +96,24 @@ const recipeBlock =
     recipesDisplay.insertAdjacentHTML('afterend', recipeBlock);
 
     callModalListeners();
-
+    displayRecipeInstructions(recipe);
     });
   };
+
+  function displayRecipeInstructions(recipe) {
+    recipe.instructions.forEach(instruction => {
+      // let instructions = document.querySelector('.instructions')
+      let step = `${instruction.number}. ${instruction.instruction}<br>`
+      instructions.insertAdjacentHTML('beforeend', step)
+    })
+
+    function getIngredientName(ingredient) {
+  let name;
+  ingredientsData.forEach(ingredientData => {
+    if (ingredient.id === ingredientData.id) {
+      name = ingredientData.name;
+    }
+  })
+  return name;
+}
+  }
