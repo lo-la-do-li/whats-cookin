@@ -111,14 +111,13 @@ const recipeBlock =
   });
 }
 
-function displayRecipeIngredients(recipe, className) {
-  recipe.ingredients.forEach(ingredient => {
-    ingredient =
-    `
-    ${getIngredientName(ingredient)}:
-    ${ingredient.quantity.amount} ${ingredient.quantity.unit}</br>
-    `
-    populateModal(ingredient, className);
+function displayRecipeInstructions(recipe, className) {
+  recipe.instructions.forEach(instruction => {
+
+    instruction =
+    `${instruction.number}. ${instruction.instruction}</br>`
+
+    populateModal(instruction, className);
   });
 }
 
