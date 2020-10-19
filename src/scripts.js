@@ -100,12 +100,28 @@ const recipeBlock =
     });
   };
 
-  function displayRecipeInstructions(recipe) {
-    recipe.instructions.forEach(instruction => {
-      // let instructions = document.querySelector('.instructions')
-      let step = `${instruction.number}. ${instruction.instruction}<br>`
-      instructions.insertAdjacentHTML('beforeend', step)
-    })
+  function displayRecipeIngredients(recipe, className) {
+  recipe.ingredients.forEach(ingredient => {
+    ingredient =
+    `
+    ${getIngredientName(ingredient)}:
+    ${ingredient.quantity.amount} ${ingredient.quantity.unit}</br>
+    `
+    populateModal(ingredient, className);
+  });
+}
+
+function displayRecipeIngredients(recipe, className) {
+  recipe.ingredients.forEach(ingredient => {
+    ingredient =
+    `
+    ${getIngredientName(ingredient)}:
+    ${ingredient.quantity.amount} ${ingredient.quantity.unit}</br>
+    `
+    populateModal(ingredient, className);
+  });
+}
+
 
     function getIngredientName(ingredient) {
   let name;
