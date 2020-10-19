@@ -28,6 +28,17 @@ function callModalListeners() {
   closeButton.addEventListener('click', toggleModal);
 }
 
+function recipeBlockClickHandler(event) {
+  if (event.target.classList.contains("close-button")) {
+    modal.classList.toggle("show-modal")
+  }
+  if (event.target.classList.contains("trigger")) {
+    let recipeID = event.target.closest(".recipe-block").id
+    displayModal(recipeID)
+  }
+}
+
+
 function toggleModal(event) {
   modal.classList.toggle("show-modal");
 }
