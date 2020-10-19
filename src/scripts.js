@@ -90,28 +90,14 @@ const recipeBlock =
     </p>
     <p>
       <button class="trigger" id="trigger">Click here to see more</button>
-      <div class="modal" id="modal">
-        <div class="modal-content">
-          <span class="close-button" id="close-button">x</span>
-          <h1>Instructions</h1>
-            <p class="instructions"></p>
-          <h3>Ingredients</h3>
-            <p></p>
-          </div>
-        </div>
-      </p>
     </article>
   `
     recipesDisplay.insertAdjacentHTML('afterend', recipeBlock);
 
-    callModalListeners();
-
-    displayRecipeIngredients(recipe, "ingredients");
-    displayRecipeInstructions(recipe, "instructions")
     });
   };
 
-  function populateModal(item, className) {
+function populateModal(item, className) {
   document.querySelector(`.${className}`).insertAdjacentHTML('beforeend', item)
 }
 
