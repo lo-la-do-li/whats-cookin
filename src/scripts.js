@@ -4,18 +4,23 @@ let modal;
 let trigger;
 let closeButton;
 
+//Query Selectors
 const recipesDisplay = document.querySelector('.recipes-display');
-let instructions = document.querySelector('.instructions')
+let instructions = document.querySelector('.instructions');
 let ingredients = document.querySelector('.ingredients');
 
+//Functions//Event Listeners
+// trigger.addEventListener('click', toggleModal);
+// closeButton.addEventListener('click', toggleModal);
 window.addEventListener('click', windowOnClick);
 window.addEventListener('load', onLoad);
 recipesDisplay.addEventListener('click', recipeBlockClickHandler)
 
+//Functions
 function onLoad() {
   getRandomUser();
-  const allRecipes = assignRecipes(recipeData);
-  displayRecipes(allRecipes);
+  const allRecipes = assignRecipes(recipeData)
+  displayRecipes(allRecipes)
 }
 
 function recipeBlockClickHandler(event) {
@@ -28,14 +33,27 @@ function recipeBlockClickHandler(event) {
   }
 }
 
-function callModalListeners() {
+function displayModal(recipeID) {
+  // callModalListeners();
+  const foundRecipe = recipeData.find(recipe => {
+    return recipe.id === +recipeID
+  })
+  document.querySelector(`.ingredients`).innerHTML = ''
+  document.querySelector(`.instructions`).innerHTML = ''
+  displayRecipeInstructions(foundRecipe, "instructions")
+  displayRecipeIngredients(foundRecipe, "ingredients");
   modal = document.querySelector(".modal");
-  trigger = document.querySelector(".trigger");
-  closeButton = document.querySelector(".close-button");
-
-  trigger.addEventListener('click', toggleModal);
-  closeButton.addEventListener('click', toggleModal);
+  modal.classList.toggle("show-modal")
 }
+
+// function callModalListeners() {
+//   modal = document.querySelector(".modal");
+//   trigger = document.querySelector(".trigger");
+//   closeButton = document.querySelector(".close-button");
+//
+//   trigger.addEventListener('click', toggleModal);
+//   closeButton.addEventListener('click', toggleModal);
+// }
 
 function toggleModal(event) {
   modal.classList.toggle("show-modal");
@@ -59,7 +77,7 @@ function getRandomUser() {
   message.innerHTML = `What's Cookin' in ${user.name}'s Kitchen?`
 }
 
-function displayElement(className) {
+function showElement(className) {
   document.querySelector(`.${className}`).remove('hidden')
 }
 
@@ -72,7 +90,7 @@ function assignRecipes(recipesArray) {
 }
 
 function displayRecipes(recipeArray) {
-recipeArray.forEach(recipe => {
+  recipeArray.forEach(recipe => {
 
 const recipeBlock =
 `
@@ -88,21 +106,16 @@ const recipeBlock =
       <button>Like</button>
       <button>Remove</button>
     </p>
-    <p>
       <button class="trigger" id="trigger">Click here to see more</button>
     </article>
   `
-    recipesDisplay.insertAdjacentHTML('afterend', recipeBlock);
-
+    recipesDisplay.insertAdjacentHTML('beforeend', recipeBlock);
     });
   };
 
-function populateModal(item, className) {
-  document.querySelector(`.${className}`).insertAdjacentHTML('beforeend', item)
-}
-
-  function displayRecipeIngredients(recipe, className) {
-  recipe.ingredients.forEach(ingredient => {
+function displayRecipeIngredients(recipe, className) {
+    console.log(recipe)
+    recipe.ingredients.forEach(ingredient => {
     ingredient =
     `
     ${getIngredientName(ingredient)}:
@@ -122,7 +135,11 @@ function displayRecipeInstructions(recipe, className) {
   });
 }
 
-  function getIngredientName(ingredient) {
+function populateModal(item, className) {
+  document.querySelector(`.${className}`).insertAdjacentHTML('beforeend', item)
+}
+
+function getIngredientName(ingredient) {
   let name;
   ingredientsData.forEach(ingredientData => {
     if (ingredient.id === ingredientData.id) {
