@@ -156,6 +156,7 @@ footer {
   width: 30%;
   overflow: scroll;
   border-radius: 0.5rem;
+  height: 80vh;
 }
 
 .close-button {
