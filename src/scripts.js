@@ -3,7 +3,7 @@
 let modal;
 let trigger;
 let likeBtn
-
+let completeRecipeSet
 //Query Selectors
 let allRecipes = document.querySelector('.all-recipes');
 let recipesDisplay = document.querySelector('.recipes-display');
@@ -12,9 +12,9 @@ let ingredients = document.querySelector('.ingredients');
 let estimatedCost = document.querySelector('.estimated-cost')
 let closeButton = document.querySelector('.close-button');
 let instructionModal = document.querySelector('.modal')
-let favoritesView = document.querySelector('.favorite-recipes-view')
-let favoriteDisplay = document.querySelector('.favorite-recipies')
-
+let favoritesBtn = document.querySelector('.favorite-recipes-btn')
+let favoriteDisplay = document.querySelector('.favorite-recipes')
+let current = document.querySelector('.current')
 
 
 //Functions//Event Listeners
@@ -26,10 +26,11 @@ recipesDisplay.addEventListener('click', recipeBlockClickHandler)
 
 
 //Functions
+
 function onLoad() {
   getRandomUser();
-  const allRecipes = assignRecipes(recipeData)
-  displayRecipesAll(allRecipes)
+  completeRecipeSet = assignRecipes(recipeData)
+  displayRecipesAll(completeRecipeSet)
 }
 
 //Call
@@ -80,11 +81,14 @@ function windowOnClick(event) {
   if (event.target === modal) {
     toggleModal();
   }
-  if(event.target === favoritesView) {
+  if(event.target === favoritesBtn) {
     event.preventDefault();
     displayFavorites()
   }
-
+  if(event.target === current) {
+    
+    displayAllView()
+  }
     //add other window-clickevent targets Here
   
 }
@@ -100,22 +104,26 @@ function getRandomUser() {
   message.innerHTML = `What's Cookin' in ${user.name}'s Kitchen?`
 }
 
-function showElement(className) {
-  document.querySelector(`.${className}`).remove('hidden')
+// function showElement(className) {
+//   document.querySelector(`.${className}`).remove('hidden')
+// }
+
+function showElement(item) {
+  item.classList.remove('hidden')
 }
 
 function hideElement(className) {
-  className.classList.add("hidden")
+  className.classList.add('hidden')
 }
 
 function assignRecipes(recipesArray) {
   return recipesArray.map(recipe => new Recipe(recipe));
 }
 
-// function displayRecipes(recipeArray) {
-//   recipeArray.forEach(recipe => {
-function displayRecipesAll(list) {
-  list.forEach(recipe => {
+function displayRecipesAll(completeRecipeSet) {
+  completeRecipeSet.forEach(recipe => {
+// function displayRecipesAll(list) {
+//   list.forEach(recipe => {
 
 const recipeBlock =
 `
@@ -193,10 +201,7 @@ function addToFavorites(newRecipe) {
 
 function displayFavorites() {
   allRecipes.innerHTML = " ";
-  hideElement(favoritesView)
-  hideElement(allRecipes);
-  displayFavorited(user.favoritesRecipes)
-  
+  displayFavorited(user.favoritesRecipes);
 }
 
 function displayFavorited(favoriteRecipes) {
@@ -224,6 +229,8 @@ const favoritesBlock =
   };
   
   function displayAllView() {
-    hideElement(homeView);
-    displayRecipes(recipeArray);
+    favoriteDisplay.innerHTML = " ";
+    displayRecipesAll(completeRecipeSet);
+    
   }
+
