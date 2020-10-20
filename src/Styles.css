@@ -10,6 +10,12 @@ body {
   line-height: 1.4em;
   margin: 0px;
 }
+
+.hidden {
+  display: none;
+}
+
+
 .wrapper {
   width: 940px;
   margin: 20px auto 20px auto;
@@ -21,6 +27,7 @@ header {
   text-align: center;
   border-top: 5px;
   height: 160px;
+  weight: 400px;
   background-image: url("https://i0.wp.com/www.pancan.org/wp-content/uploads/2019/08/vegetable-rainbow-733x450.jpg?fit=733%2C450&ssl=1");
 }
 
@@ -31,6 +38,7 @@ h1 {
   margin: 0 0 -50px 0;
   padding-top: 50px;
 }
+
 
 nav, footer {
   clear: both;
@@ -104,6 +112,13 @@ aside section a:hover {
   background-color: #efefef;
 }
 
+.favorites-message {
+  color: #de6581;
+  text-decoration: none;
+  font-size: 36px;
+  padding: 92px 0px 0px 32px;
+}
+
 a {
   color: #de6581;
   text-decoration: none;
@@ -113,7 +128,7 @@ h1, h2, h3 {
   font-weight: normal;
 }
 
-h2 {
+h2, {
   margin: 10px 0px 5px 0px;
   padding: 0px;
 }
@@ -179,3 +194,4 @@ footer {
   transform: scale(1.0);
   transition: visibility 0s linear 0s, opacity 0.25s 0s, transform 0.25s;
 }
+

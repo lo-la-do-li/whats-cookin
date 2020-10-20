@@ -11,8 +11,8 @@
       <h1 class="whats-cookin-message">What's Cookin in User's Kitchen?</h1>
       <nav>
         <ul>
-          <li><a href="" class="current">All Recipes</a></li>
-          <li><a href="">Favorite Recipes</a></li>
+          <li><a href="" class="tab-all-recipes current">All Recipes</a></li>
+          <li><a href="" class="tab-favorite-recipes">Favorite Recipes</a></li>
           <li><a href="">Recipes to Cook</a></li>
           <li><a href="">My Pantry</a></li>
           <li><a href="">Shopping List</a></li>
@@ -20,15 +20,23 @@
       </nav>
     </header>
     <section class="recipes-display">
-          <div class="modal" id="modal">
-            <div class="modal-content">
-              <span class="close-button" id="close-button">x</span>
-              <h3>Instructions</h3>
+      <div class="all-recipes">
+      </div>
+      <div class="favorite-recipes">
+      <div>
+      <div class='to-cook-recipes'>
+      </div>
+      <div class="modal" id="modal">
+        <div class="modal-content">
+            <span class="close-button" id="close-button">x</span>
+            <h3>Instructions</h3>
               <p class="instructions"></p>
-                <h3>Ingredients</h3>
+            <h3>Ingredients</h3>
               <p class="ingredients"></p>
-              </div>
-            </div>
+            <h3>Estimated Cost In Cents</h3>
+              <p class="estimated-cost"></p>
+          </div>
+        </div>
       </section>
       <aside>
         <section class="shopping-list">
