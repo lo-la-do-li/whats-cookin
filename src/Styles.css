@@ -10,6 +10,11 @@ body {
   line-height: 1.4em;
   margin: 0px;
 }
+
+.hidden {
+  display: none;
+}
+
 .wrapper {
   width: 940px;
   margin: 20px auto 20px auto;
