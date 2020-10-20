@@ -1,4 +1,4 @@
-const ingredientsData = require('../data/ingredients.js')
+// const ingredientsData = require('../data/ingredients.js')
 
 class User {
   constructor (user) {
@@ -10,7 +10,9 @@ class User {
   }
 
   addFavoriteRecipes(recipe) {
+    if(!this.favoriteRecipes.includes(recipe)) {
     this.favoriteRecipes.push(recipe)
+    }
   }
 
   removeFavoriteRecipes(recipe) {
