@@ -2,22 +2,25 @@
 
 let modal;
 let trigger;
-let closeButton;
 let likeBtn
 
 //Query Selectors
-const recipesDisplay = document.querySelector('.recipes-display');
+let allRecipes = document.querySelector('.all-recipes');
+let recipesDisplay = document.querySelector('.recipes-display');
 let instructions = document.querySelector('.instructions');
 let ingredients = document.querySelector('.ingredients');
 let estimatedCost = document.querySelector('.estimated-cost')
+let closeButton = document.querySelector('.close-button');
+let instructionModal = document.querySelector('.modal')
+let favoritesView = document.querySelector('.favorite-recipes-view')
 
 
 //Functions//Event Listeners
-// trigger.addEventListener('click', toggleModal);
-// closeButton.addEventListener('click', toggleModal);
+
 window.addEventListener('click', windowOnClick);
 window.addEventListener('load', onLoad);
 recipesDisplay.addEventListener('click', recipeBlockClickHandler)
+// favoritesView.addEventListener('click', displayFavorites)
 
 
 //Functions
@@ -30,7 +33,7 @@ function onLoad() {
 //Call
 function recipeBlockClickHandler(event) {
   if (event.target.classList.contains("close-button")) {
-    modal.classList.toggle("show-modal")
+    instructionModal.classList.toggle("show-modal")
   }
   if (event.target.classList.contains("trigger")) {
     let recipeID = event.target.closest(".recipe-block").id
@@ -47,9 +50,9 @@ function displayModal(recipeID) {
   const foundRecipe = recipeData.find(recipe => {
     return recipe.id === +recipeID
   })
-  document.querySelector(`.ingredients`).innerHTML = ''
-  document.querySelector(`.instructions`).innerHTML = ''
-  document.querySelector(`.estimated-cost`).innerHTML = ''
+  document.querySelector('.ingredients').innerHTML = ''
+  document.querySelector('.instructions').innerHTML = ''
+  document.querySelector('.estimated-cost').innerHTML = ''
   displayRecipeInstructions(foundRecipe, "instructions")
   displayRecipeIngredients(foundRecipe, "ingredients");
   displayCostOfRecipe(foundRecipe, "estimated-cost")
@@ -71,8 +74,14 @@ function toggleModal(event) {
 }
 
 function windowOnClick(event) {
-  if (event.target && event.id === modal) {
+  event.preventDefault();
+  if (event.target === modal) {
     toggleModal();
+  }
+  if(event.target === favoritesView) {
+      event.preventDefault()
+    displayFavorites()
+  
     //add other window-clickevent targets Here
   }
 }
@@ -93,15 +102,17 @@ function showElement(className) {
 }
 
 function hideElement(className) {
-  document.querySelector(`.${className}`).add('hidden')
+  className.classList.add("hidden")
 }
 
 function assignRecipes(recipesArray) {
   return recipesArray.map(recipe => new Recipe(recipe));
 }
 
-function displayRecipes(recipeArray) {
-  recipeArray.forEach(recipe => {
+// function displayRecipes(recipeArray) {
+//   recipeArray.forEach(recipe => {
+function displayRecipes(list) {
+  list.forEach(recipe => {
 
 const recipeBlock =
 `
@@ -111,7 +122,7 @@ const recipeBlock =
     </figure>
     <hgroup>
       <h2>${recipe.name}</h2>
-      <h3>${recipe.tags}</h3>
+      <h3 class="tags">${recipe.tags}</h3>
     </hgroup>
     <p>
       <button class ="like-btn">Like</button>
@@ -125,7 +136,6 @@ const recipeBlock =
   };
 
 function displayRecipeIngredients(recipe, className) {
-    console.log(recipe)
     recipe.ingredients.forEach(ingredient => {
     ingredient =
     `
@@ -149,6 +159,10 @@ function displayRecipeInstructions(recipe, className) {
 function populateModal(item, className) {
   document.querySelector(`.${className}`).insertAdjacentHTML('beforeend', item)
 }
+
+// function displayTags(item, className) {
+//   document.querySelector().insertAdjacentHTML('beforeend', item)
+// }
 
 function getIngredientName(ingredient) {
   let name;
@@ -174,3 +188,8 @@ function addToFavorites(newRecipe) {
 }
 
 
+function displayFavorites() {
+  hideElement(allRecipes);
+  
+  
+}
