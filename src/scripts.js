@@ -13,6 +13,8 @@ let estimatedCost = document.querySelector('.estimated-cost')
 let closeButton = document.querySelector('.close-button');
 let instructionModal = document.querySelector('.modal')
 let favoritesView = document.querySelector('.favorite-recipes-view')
+let favoriteDisplay = document.querySelector('.favorite-recipies')
+
 
 
 //Functions//Event Listeners
@@ -27,7 +29,7 @@ recipesDisplay.addEventListener('click', recipeBlockClickHandler)
 function onLoad() {
   getRandomUser();
   const allRecipes = assignRecipes(recipeData)
-  displayRecipes(allRecipes)
+  displayRecipesAll(allRecipes)
 }
 
 //Call
@@ -79,11 +81,12 @@ function windowOnClick(event) {
     toggleModal();
   }
   if(event.target === favoritesView) {
-      event.preventDefault()
+    event.preventDefault();
     displayFavorites()
-  
-    //add other window-clickevent targets Here
   }
+
+    //add other window-clickevent targets Here
+  
 }
 
 function getRandomIndex(arr) {
@@ -111,7 +114,7 @@ function assignRecipes(recipesArray) {
 
 // function displayRecipes(recipeArray) {
 //   recipeArray.forEach(recipe => {
-function displayRecipes(list) {
+function displayRecipesAll(list) {
   list.forEach(recipe => {
 
 const recipeBlock =
@@ -131,7 +134,7 @@ const recipeBlock =
       <button class="trigger" id="trigger">Click here to see more</button>
     </article>
   `
-    recipesDisplay.insertAdjacentHTML('beforeend', recipeBlock);
+    allRecipes.insertAdjacentHTML('beforeend', recipeBlock);
     });
   };
 
@@ -189,7 +192,38 @@ function addToFavorites(newRecipe) {
 
 
 function displayFavorites() {
+  allRecipes.innerHTML = " ";
+  hideElement(favoritesView)
   hideElement(allRecipes);
-  
+  displayFavorited(user.favoritesRecipes)
   
 }
+
+function displayFavorited(favoriteRecipes) {
+  user.favoriteRecipes.forEach(recipe => {
+
+const favoritesBlock =
+`
+  <article class="recipe-block" id="${recipe.id}">
+    <figure>
+      <img class="recipe-image" src="${recipe.image}" alt="${recipe.name}"/>
+    </figure>
+    <hgroup>
+      <h2>${recipe.name}</h2>
+      <h3 class="tags">${recipe.tags}</h3>
+    </hgroup>
+    <p>
+      <button class ="like-btn">Like</button>
+      <button>Remove</button>
+    </p>
+      <button class="trigger" id="trigger">Click here to see more</button>
+    </article>
+  `
+    favoriteDisplay.insertAdjacentHTML('beforeend', favoritesBlock);
+    });
+  };
+  
+  function displayAllView() {
+    hideElement(homeView);
+    displayRecipes(recipeArray);
+  }
