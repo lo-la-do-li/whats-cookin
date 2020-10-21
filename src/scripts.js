@@ -5,6 +5,7 @@ let completeRecipeSet;
 let removeButton;
 let addToCookButton;
 let cookButton;
+let removeToCookButton;
 
 //Query Selectors
 let allRecipes = document.querySelector('.all-recipes');
@@ -64,6 +65,10 @@ function recipeBlockClickHandler(event) {
   if (event.target.classList.contains("to-cook-btn")) {
     let faveRecipe = event.target.closest(".recipe-block").id
     addToCook(faveRecipe)
+  }
+  if (event.target.classList.contains("remove-to-cook-btn")) {
+    let removeRecipe = event.target.closest(".recipe-block").id
+    removeFromRecipesToCook(removeRecipe)
   }
 }
 //MODAL HANDLERS
@@ -210,13 +215,21 @@ function addToFavorites(newRecipe) {
   })
   user.addFavoriteRecipes(foundRecipe)
 }
-function removeFromFavorites(newRecipe) {
+function removeFromFavorites(byeRecipe) {
   let removedRecipe = recipeData.find(recipe => {
-    return recipe.id === +newRecipe
+    return recipe.id === +byeRecipe
   })
   user.removeFavoriteRecipes(removedRecipe)
   displayFavoritesView(user.favoriteRecipes)
 }
+function removeFromRecipesToCook(byeRecipe) {
+  let removedRecipe = recipeData.find(recipe => {
+    return recipe.id === +byeRecipe
+  })
+    removedRecipe = user.recipesToCook.indexOf(removedRecipe)
+    user.recipesToCook.splice(removedRecipe, 1)
+    displayRecipesToCook(user.recipesToCook)
+  }
 
 function displayFavorites() {
   allRecipes.innerHTML = " ";
@@ -275,14 +288,13 @@ function formatRecipesToCook(recipesToCook) {
     <h3 class="tags">${recipe.tags}</h3>
     </hgroup>
     <p>
-    <button class="remove-btn">Remove</button>
+    <button class="remove-to-cook-btn">Remove</button>
     <button class="cook-btn">Cook this Recipe</button>
     </p>
     <button class="trigger" id="trigger">Click here to see more</button>
     </article>
     `
-    // <button class ="like-btn">Like</button>
-    // document.querySelector('.like-btn').classList.add('hidden');
+    removeToCookButton = document.querySelector('remove-to-cook-btn');
     cookButton = document.querySelector('.cook-btn');
     toCookDisplay.insertAdjacentHTML('afterbegin', toCookBlock);
   });
