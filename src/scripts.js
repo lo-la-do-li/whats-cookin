@@ -1,8 +1,10 @@
 let modal;
 let trigger;
 let likeButton
-let completeRecipeSet
-let removeButton
+let completeRecipeSet;
+let removeButton;
+let addToCookButton;
+let cookButton;
 //Query Selectors
 let allRecipes = document.querySelector('.all-recipes');
 let recipesDisplay = document.querySelector('.recipes-display');
@@ -14,18 +16,38 @@ let recipeInfoModal = document.querySelector('.modal')
 let favoritesTab = document.querySelector('.tab-favorite-recipes')
 let favoriteDisplay = document.querySelector('.favorite-recipes')
 let allRecipesTab = document.querySelector('.tab-all-recipes')
+let toCookTab = document.querySelector('.tab-to-cook-recipes')
+let toCookDisplay = document.querySelector('.to-cook-recipes')
+let pantryTab = document.querySelector('.tab-pantry')
+let searchBar = document.querySelector('.search-input')
+
 //Functions//Event Listeners
 window.addEventListener('click', windowOnClick);
 window.addEventListener('load', onLoad);
 recipesDisplay.addEventListener('click', recipeBlockClickHandler)
+searchBar.addEventListener('input', searchRecipes);
+
 // favoritesView.addEventListener('click', displayFavorites)
 //Functions
+
+
+
 function onLoad() {
   getRandomUser();
   completeRecipeSet = assignRecipes(recipeData)
   displayRecipesAll(completeRecipeSet)
 }
-//Call
+//RECIPE BUTTON HANDLERS
+
+function searchRecipes(e) {
+
+  console.log(e.target.value);
+  let searchInput = e.target.value
+  let recipeMatches = user.searchFavoriteRecipesByName(searchInput)
+
+  return displayFavorites(searchResults)
+}
+
 function recipeBlockClickHandler(event) {
   if (event.target.classList.contains("close-button")) {
     recipeInfoModal.classList.toggle("show-modal")
@@ -41,10 +63,43 @@ function recipeBlockClickHandler(event) {
   if (event.target.classList.contains("remove-btn")) {
     let removeRecipe = event.target.closest(".recipe-block").id
     removeFromFavorites(removeRecipe)
-    displayFavorites()
+
+  }
+  if (event.target.classList.contains("add-to-cook-btn")) {
+    let faveRecipe = event.target.closest(".recipe-block").id
+    addToCook(faveRecipe)
+
+  }
+  if (event.target.classList.contains("cook-btn")) {
+    let cookedRecipe = event.target.closest(".recipe-block").id
+    cookedRecipe = new Recipe()
+    userPantry.checkPantry(cookedRecipe)
+
+
   }
 }
-//MODAL
+//WINDOW CLICK EVENTS
+function windowOnClick(event) {
+event.preventDefault();
+  if (event.target === modal) {
+    toggleModal();
+  }
+  if(event.target === favoritesTab) {
+    // event.preventDefault();
+    displayFavorites()
+  }
+  if(event.target === allRecipesTab) {
+    // event.preventDefault();
+    displayAllView()
+  }
+  if(event.target === toCookTab) {
+    // event.preventDefault();
+    displayRecipesToCook();
+  }
+    //add other window-clickevent targets Here
+}
+
+//MODAL HANDLERS
 function displayModal(recipeID) {
   const foundRecipe = recipeData.find(recipe => {
     return recipe.id === +recipeID
@@ -56,27 +111,12 @@ function displayModal(recipeID) {
   displayRecipeIngredients(foundRecipe, "ingredients");
   displayCostOfRecipe(foundRecipe, "estimated-cost");
   modal = document.querySelector(".modal");
-  modal.classList.toggle("show-modal")
+  modal.classList.toggle("show-modal");
 }
 function toggleModal(event) {
   modal.classList.toggle("show-modal");
 }
-//WINDOW EVENTS
-function windowOnClick(event) {
-// event.preventDefault();
-  if (event.target === modal) {
-    toggleModal();
-  }
-  if(event.target === favoritesTab) {
-    event.preventDefault();
-    displayFavorites()
-  }
-  if(event.target === allRecipesTab) {
-    event.preventDefault();
-    displayAllView()
-  }
-    //add other window-clickevent targets Here
-}
+
 function getRandomIndex(arr) {
   return arr[Math.floor(Math.random() * arr.length)]
 }
@@ -95,11 +135,21 @@ function showElement(item) {
 function hideElement(className) {
   className.classList.add('hidden')
 }
+
+//ALL RECIPES
 function assignRecipes(recipesArray) {
   return recipesArray.map(recipe => new Recipe(recipe));
 }
+function displayAllView() {
+  favoritesTab.classList.remove('current')
+  toCookTab.classList.remove('current')
+  allRecipesTab.classList.add('current')
+  completeRecipeSet = assignRecipes(recipeData)
+  displayRecipesAll(completeRecipeSet);
+}
+
 function displayRecipesAll(completeRecipeSet) {
-  favoriteDisplay.innerHTML = " ";
+  // favoriteDisplay.innerHTML = " ";
   completeRecipeSet.forEach(recipe => {
 const recipeBlock =
 `
@@ -113,14 +163,15 @@ const recipeBlock =
     </hgroup>
     <p>
       <button class="like-btn">Like</button>
-      <button class="remove-btn">Remove</button>
     </p>
       <button class="trigger" id="trigger">Click here to see more</button>
     </article>
   `
+    // <button class="remove-btn">Remove</button>
     allRecipes.insertAdjacentHTML('beforeend', recipeBlock);
     });
   };
+
 function displayRecipeIngredients(recipe, className) {
     recipe.ingredients.forEach(ingredient => {
     ingredient =
@@ -153,11 +204,14 @@ function getIngredientName(ingredient) {
   })
   return name;
 }
+
 function displayCostOfRecipe(recipe, className) {
   recipe = new Recipe(recipe)
   let cost = `¢${recipe.getCostOfRecipe()}`
   populateModal(cost, className)
 }
+
+//FAVORITES
 function addToFavorites(newRecipe) {
   const foundRecipe = recipeData.find(recipe => {
      return recipe.id === +newRecipe
@@ -174,13 +228,15 @@ function removeFromFavorites(newRecipe) {
 function displayFavorites() {
   allRecipes.innerHTML = " ";
   allRecipesTab.classList.remove('current')
+  toCookTab.classList.remove('current')
   favoritesTab.classList.add('current')
-  displayFavorited(user.favoriteRecipes);
+  displayFavoritesView(user.favoriteRecipes);
 }
 
-function displayFavorited(favoriteRecipes) {
+function displayFavoritesView(favoriteRecipes) {
   user.favoriteRecipes.forEach(recipe => {
-const favoritesBlock =
+let favoritesBlock = new Set()
+favoritesBlock =
 `
   <article class="recipe-block" id="${recipe.id}">
     <figure>
@@ -191,19 +247,56 @@ const favoritesBlock =
       <h3 class="tags">${recipe.tags}</h3>
     </hgroup>
     <p>
-      <button class ="like-btn">Like</button>
       <button class="remove-btn">Remove</button>
+      <button class="add-to-cook-btn">Add to Recipes to Cook</button>
     </p>
       <button class="trigger" id="trigger">Click here to see more</button>
     </article>
   `
+    // <button class ="like-btn">Like</button>
+    // document.querySelector('.like-btn').classList.add('hidden');
+    addToCookButton = document.querySelector('.add-to-cook-btn');
     favoriteDisplay.insertAdjacentHTML('beforeend', favoritesBlock);
     });
   };
-  function displayAllView() {
-    favoritesTab.classList.remove('current')
-    allRecipesTab.classList.add('current')
-    completeRecipeSet = assignRecipes(recipeData)
-    displayRecipesAll(completeRecipeSet);
+
+  //RECIPES TO COOK
+  function addToCook(faveRecipe) {
+    const foundRecipe = recipeData.find(recipe => {
+       return recipe.id === +faveRecipe
+    })
+      user.addRecipiesToCook(foundRecipe)
   }
 
+  function formatRecipesToCook(recipesToCook) {
+  user.recipesToCook.forEach(recipe => {
+  const toCookBlock =
+  `
+    <article class="recipe-block" id="${recipe.id}">
+      <figure>
+        <img class="recipe-image" src="${recipe.image}" alt="${recipe.name}"/>
+      </figure>
+      <hgroup>
+        <h2>${recipe.name}</h2>
+        <h3 class="tags">${recipe.tags}</h3>
+      </hgroup>
+      <p>
+        <button class="remove-btn">Remove</button>
+        <button class="cook-btn">Cook this Recipe</button>
+      </p>
+        <button class="trigger" id="trigger">Click here to see more</button>
+      </article>
+    `
+      cookButton = document.querySelector('.cook-btn');
+      toCookDisplay.insertAdjacentHTML('afterend', toCookBlock);
+      });
+    };
+
+  function displayRecipesToCook() {
+    allRecipes.innerHTML = " ";
+    favoriteDisplay.innerHTML = " ";
+    allRecipesTab.classList.remove('current')
+    favoritesTab.classList.remove('current')
+    toCookTab.classList.add('current')
+    formatRecipesToCook(user.recipesToCook);
+  }
