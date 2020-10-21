@@ -18,14 +18,14 @@ let favoriteDisplay = document.querySelector('.favorite-recipes')
 let allRecipesTab = document.querySelector('.tab-all-recipes')
 let toCookTab = document.querySelector('.tab-to-cook-recipes')
 let toCookDisplay = document.querySelector('.to-cook-recipes')
-
+let pantryTab = document.querySelector('.tab-pantry')
 let searchBar = document.querySelector('.search-input')
 
 //Functions//Event Listeners
 window.addEventListener('click', windowOnClick);
 window.addEventListener('load', onLoad);
 recipesDisplay.addEventListener('click', recipeBlockClickHandler)
-searchBar.addEventListener('input', searchFunction);
+searchBar.addEventListener('input', searchRecipes);
 
 // favoritesView.addEventListener('click', displayFavorites)
 //Functions
@@ -39,10 +39,13 @@ function onLoad() {
 }
 //RECIPE BUTTON HANDLERS
 
-function searchFunction(e) {
+function searchRecipes(e) {
+
   console.log(e.target.value);
-  user.searchFavoriteRecipesByName(e.target.value)
-  displayFavoritesView(e.target.value)
+  let searchInput = e.target.value
+  let recipeMatches = user.searchFavoriteRecipesByName(searchInput)
+
+  return displayFavorites(searchResults)
 }
 
 function recipeBlockClickHandler(event) {
@@ -132,6 +135,7 @@ function assignRecipes(recipesArray) {
 }
 function displayAllView() {
   favoritesTab.classList.remove('current')
+  toCookTab.classList.remove('current')
   allRecipesTab.classList.add('current')
   completeRecipeSet = assignRecipes(recipeData)
   displayRecipesAll(completeRecipeSet);
@@ -193,6 +197,7 @@ function getIngredientName(ingredient) {
   })
   return name;
 }
+
 function displayCostOfRecipe(recipe, className) {
   recipe = new Recipe(recipe)
   let cost = `¢${recipe.getCostOfRecipe()}`
@@ -216,13 +221,15 @@ function removeFromFavorites(newRecipe) {
 function displayFavorites() {
   allRecipes.innerHTML = " ";
   allRecipesTab.classList.remove('current')
+  toCookTab.classList.remove('current')
   favoritesTab.classList.add('current')
   displayFavoritesView(user.favoriteRecipes);
 }
 
 function displayFavoritesView(favoriteRecipes) {
   user.favoriteRecipes.forEach(recipe => {
-const favoritesBlock =
+let favoritesBlock = new Set()
+favoritesBlock =
 `
   <article class="recipe-block" id="${recipe.id}">
     <figure>
