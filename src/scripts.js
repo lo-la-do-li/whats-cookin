@@ -63,12 +63,19 @@ function recipeBlockClickHandler(event) {
   if (event.target.classList.contains("remove-btn")) {
     let removeRecipe = event.target.closest(".recipe-block").id
     removeFromFavorites(removeRecipe)
-    // displayFavorites()
+
   }
-  if (event.target.classList.contains("to-cook-btn")) {
+  if (event.target.classList.contains("add-to-cook-btn")) {
     let faveRecipe = event.target.closest(".recipe-block").id
     addToCook(faveRecipe)
-    // displayRecipesToCook()
+
+  }
+  if (event.target.classList.contains("cook-btn")) {
+    let cookedRecipe = event.target.closest(".recipe-block").id
+    cookedRecipe = new Recipe()
+    userPantry.checkPantry(cookedRecipe)
+
+
   }
 }
 //WINDOW CLICK EVENTS
@@ -241,14 +248,14 @@ favoritesBlock =
     </hgroup>
     <p>
       <button class="remove-btn">Remove</button>
-      <button class="to-cook-btn">Add to Recipes to Cook</button>
+      <button class="add-to-cook-btn">Add to Recipes to Cook</button>
     </p>
       <button class="trigger" id="trigger">Click here to see more</button>
     </article>
   `
     // <button class ="like-btn">Like</button>
     // document.querySelector('.like-btn').classList.add('hidden');
-    addToCookButton = document.querySelector('.to-cook-btn');
+    addToCookButton = document.querySelector('.add-to-cook-btn');
     favoriteDisplay.insertAdjacentHTML('beforeend', favoritesBlock);
     });
   };
