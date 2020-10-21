@@ -19,12 +19,18 @@ let allRecipesTab = document.querySelector('.tab-all-recipes')
 let toCookTab = document.querySelector('.tab-to-cook-recipes')
 let toCookDisplay = document.querySelector('.to-cook-recipes')
 
+let searchBar = document.querySelector('.search-input')
+
 //Functions//Event Listeners
 window.addEventListener('click', windowOnClick);
 window.addEventListener('load', onLoad);
 recipesDisplay.addEventListener('click', recipeBlockClickHandler)
+searchBar.addEventListener('input', searchFunction);
+
 // favoritesView.addEventListener('click', displayFavorites)
 //Functions
+
+
 
 function onLoad() {
   getRandomUser();
@@ -32,6 +38,13 @@ function onLoad() {
   displayRecipesAll(completeRecipeSet)
 }
 //RECIPE BUTTON HANDLERS
+
+function searchFunction(e) {
+  console.log(e.target.value);
+  user.searchFavoriteRecipesByName(e.target.value)
+  displayFavoritesView(e.target.value)
+}
+
 function recipeBlockClickHandler(event) {
   if (event.target.classList.contains("close-button")) {
     recipeInfoModal.classList.toggle("show-modal")
