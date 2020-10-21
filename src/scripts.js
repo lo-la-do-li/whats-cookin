@@ -30,14 +30,7 @@ recipesDisplay.addEventListener('click', recipeBlockClickHandler)
 searchBar.addEventListener('input', searchRecipes)
 // favoritesView.addEventListener('click', displayFavorites)
 //Functions
-function searchRecipes(e) {
 
-  console.log(e.target.value);
-  let searchInput = e.target.value
-  let recipeMatches = new Set(user.searchFavoriteRecipesByName(searchInput))
-  console.log(recipeMatches)
-  // return displayFavorites(searchResults)
-}
 
 function onLoad() {
   getRandomUser();
@@ -165,7 +158,6 @@ function displayRecipesAll(completeRecipeSet) {
     <button class="trigger" id="trigger">Click here to see more</button>
     </article>
     `
-    // <button class="remove-btn">Remove</button>
     allRecipes.insertAdjacentHTML('beforeend', recipeBlock);
   });
 };
@@ -231,6 +223,17 @@ function removeFromRecipesToCook(byeRecipe) {
     displayRecipesToCook(user.recipesToCook)
   }
 
+  function searchRecipes(e) {
+
+    console.log(e.target.value);
+    let searchInput = e.target.value
+    let recipeMatches = new Set(user.searchFavoriteRecipesByName(searchInput))
+    // recipeMatches.forEach(recipe => new Recipe(recipe))
+    console.log(recipeMatches)
+
+    displayFavoritesSearch(recipeMatches)
+  }
+
 function displayFavorites() {
   allRecipes.innerHTML = " ";
   allRecipesTab.classList.remove('current')
@@ -262,6 +265,31 @@ let favorites = new Set(user.favoriteRecipes)
     `
     addToCookButton = document.querySelector('.to-cook-btn');
     favoriteDisplay.insertAdjacentHTML('beforeend', favoritesBlock);
+  });
+};
+function displayFavoritesSearch(recipeMatches) {
+favoriteDisplay.innerHTML = " "
+// let searched = new Set(recipeMatches)
+  recipeMatches.forEach(recipe => {
+    const searchedBlock =
+    `
+    <article class="recipe-block" id="${recipe.id}">
+    <figure>
+    <img class="recipe-image" src="${recipe.image}" alt="${recipe.name}"/>
+    </figure>
+    <hgroup>
+    <h2>${recipe.name}</h2>
+    <h3 class="tags">${recipe.tags}</h3>
+    </hgroup>
+    <p>
+    <button class="remove-btn">Remove</button>
+    <button class="to-cook-btn">Add to Recipes to Cook</button>
+    </p>
+    <button class="trigger" id="trigger">Click here to see more</button>
+    </article>
+    `
+    addToCookButton = document.querySelector('.to-cook-btn');
+    favoriteDisplay.insertAdjacentHTML('beforeend', searchedBlock);
   });
 };
 
