@@ -37,11 +37,13 @@ class User {
   }
 
   searchFavoriteRecipesByName(nameInput) {
+    console.log(nameInput)
     let recipeMatches = new Set()
     let newInput = nameInput.toLowerCase()
     recipeMatches = this.favoriteRecipes.filter(recipe => {
       return recipe.name.toLowerCase().includes(newInput)
     })
+    console.log(recipeMatches)
     return recipeMatches.length !== 0 ? recipeMatches : "No recipes match that title"
   }
 

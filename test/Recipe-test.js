@@ -94,7 +94,7 @@ describe('Recipe', () => {
   it('should have tags', () => {
     expect(newRecipe.tags).to.deep.equal(["antipasti", "starter", "snack", "appetizer"])
   });
-  
+
   it('should contain an array of tags', () => {
     expect(newRecipe.tags).to.be.a('array');
     expect(newRecipe.tags.length).to.deep.equal(4);
