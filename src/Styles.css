@@ -134,6 +134,8 @@ h2, {
 }
 
 h3 {
+  overflow-wrap: anywhere; 
+  padding: 0px 37px 0px 0px;
   margin: 0px 0px 10px 0px;
   color: #de6581;
 }
@@ -194,4 +196,3 @@ footer {
   transform: scale(1.0);
   transition: visibility 0s linear 0s, opacity 0.25s 0s, transform 0.25s;
 }
-
