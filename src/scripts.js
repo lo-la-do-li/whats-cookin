@@ -3,7 +3,8 @@ let trigger;
 let likeButton
 let completeRecipeSet;
 let removeButton;
-let toCookBtn;
+let addToCookButton;
+let cookButton;
 //Query Selectors
 let allRecipes = document.querySelector('.all-recipes');
 let recipesDisplay = document.querySelector('.recipes-display');
@@ -16,6 +17,7 @@ let favoritesTab = document.querySelector('.tab-favorite-recipes')
 let favoriteDisplay = document.querySelector('.favorite-recipes')
 let allRecipesTab = document.querySelector('.tab-all-recipes')
 let toCookTab = document.querySelector('.tab-to-cook-recipes')
+let toCookDisplay = document.querySelector('.to-cook-recipes')
 
 //Functions//Event Listeners
 window.addEventListener('click', windowOnClick);
@@ -45,9 +47,35 @@ function recipeBlockClickHandler(event) {
   if (event.target.classList.contains("remove-btn")) {
     let removeRecipe = event.target.closest(".recipe-block").id
     removeFromFavorites(removeRecipe)
-    displayFavorites()
+    // displayFavorites()
+  }
+  if (event.target.classList.contains("to-cook-btn")) {
+    let faveRecipe = event.target.closest(".recipe-block").id
+    addToCook(faveRecipe)
+    // displayRecipesToCook()
   }
 }
+//WINDOW CLICK EVENTS
+function windowOnClick(event) {
+event.preventDefault();
+  if (event.target === modal) {
+    toggleModal();
+  }
+  if(event.target === favoritesTab) {
+    // event.preventDefault();
+    displayFavorites()
+  }
+  if(event.target === allRecipesTab) {
+    // event.preventDefault();
+    displayAllView()
+  }
+  if(event.target === toCookTab) {
+    // event.preventDefault();
+    displayRecipesToCook();
+  }
+    //add other window-clickevent targets Here
+}
+
 //MODAL HANDLERS
 function displayModal(recipeID) {
   const foundRecipe = recipeData.find(recipe => {
@@ -66,26 +94,6 @@ function toggleModal(event) {
   modal.classList.toggle("show-modal");
 }
 
-//WINDOW CLICK EVENTS
-function windowOnClick(event) {
-// event.preventDefault();
-  if (event.target === modal) {
-    toggleModal();
-  }
-  if(event.target === favoritesTab) {
-    event.preventDefault();
-    displayFavorites()
-  }
-  if(event.target === allRecipesTab) {
-    event.preventDefault();
-    displayAllView()
-  }
-  if(event.target === toCookTab) {
-    event.preventDefault();
-
-  }
-    //add other window-clickevent targets Here
-}
 function getRandomIndex(arr) {
   return arr[Math.floor(Math.random() * arr.length)]
 }
@@ -104,9 +112,18 @@ function showElement(item) {
 function hideElement(className) {
   className.classList.add('hidden')
 }
+
+//ALL RECIPES
 function assignRecipes(recipesArray) {
   return recipesArray.map(recipe => new Recipe(recipe));
 }
+function displayAllView() {
+  favoritesTab.classList.remove('current')
+  allRecipesTab.classList.add('current')
+  completeRecipeSet = assignRecipes(recipeData)
+  displayRecipesAll(completeRecipeSet);
+}
+
 function displayRecipesAll(completeRecipeSet) {
   // favoriteDisplay.innerHTML = " ";
   completeRecipeSet.forEach(recipe => {
@@ -130,6 +147,7 @@ const recipeBlock =
     allRecipes.insertAdjacentHTML('beforeend', recipeBlock);
     });
   };
+
 function displayRecipeIngredients(recipe, className) {
     recipe.ingredients.forEach(ingredient => {
     ingredient =
@@ -167,6 +185,8 @@ function displayCostOfRecipe(recipe, className) {
   let cost = `¢${recipe.getCostOfRecipe()}`
   populateModal(cost, className)
 }
+
+//FAVORITES
 function addToFavorites(newRecipe) {
   const foundRecipe = recipeData.find(recipe => {
      return recipe.id === +newRecipe
@@ -184,10 +204,10 @@ function displayFavorites() {
   allRecipes.innerHTML = " ";
   allRecipesTab.classList.remove('current')
   favoritesTab.classList.add('current')
-  displayFavorited(user.favoriteRecipes);
+  displayFavoritesView(user.favoriteRecipes);
 }
 
-function displayFavorited(favoriteRecipes) {
+function displayFavoritesView(favoriteRecipes) {
   user.favoriteRecipes.forEach(recipe => {
 const favoritesBlock =
 `
@@ -208,14 +228,48 @@ const favoritesBlock =
   `
     // <button class ="like-btn">Like</button>
     // document.querySelector('.like-btn').classList.add('hidden');
-    toCookBtn = document.querySelector('.to-cook-btn');
+    addToCookButton = document.querySelector('.to-cook-btn');
     favoriteDisplay.insertAdjacentHTML('beforeend', favoritesBlock);
     });
   };
 
-  function displayAllView() {
+  //RECIPES TO COOK
+  function addToCook(faveRecipe) {
+    const foundRecipe = recipeData.find(recipe => {
+       return recipe.id === +faveRecipe
+    })
+      user.addRecipiesToCook(foundRecipe)
+  }
+
+  function formatRecipesToCook(recipesToCook) {
+  user.recipesToCook.forEach(recipe => {
+  const toCookBlock =
+  `
+    <article class="recipe-block" id="${recipe.id}">
+      <figure>
+        <img class="recipe-image" src="${recipe.image}" alt="${recipe.name}"/>
+      </figure>
+      <hgroup>
+        <h2>${recipe.name}</h2>
+        <h3 class="tags">${recipe.tags}</h3>
+      </hgroup>
+      <p>
+        <button class="remove-btn">Remove</button>
+        <button class="cook-btn">Cook this Recipe</button>
+      </p>
+        <button class="trigger" id="trigger">Click here to see more</button>
+      </article>
+    `
+      cookButton = document.querySelector('.cook-btn');
+      toCookDisplay.insertAdjacentHTML('afterend', toCookBlock);
+      });
+    };
+
+  function displayRecipesToCook() {
+    allRecipes.innerHTML = " ";
+    favoriteDisplay.innerHTML = " ";
+    allRecipesTab.classList.remove('current')
     favoritesTab.classList.remove('current')
-    allRecipesTab.classList.add('current')
-    completeRecipeSet = assignRecipes(recipeData)
-    displayRecipesAll(completeRecipeSet);
+    toCookTab.classList.add('current')
+    formatRecipesToCook(user.recipesToCook);
   }
