@@ -10,7 +10,7 @@ class User {
   }
 
   addFavoriteRecipes(recipe) {
-    if(!this.favoriteRecipes.includes(recipe)) {
+    if (!this.favoriteRecipes.includes(recipe)) {
     this.favoriteRecipes.push(recipe)
     }
   }
@@ -75,7 +75,7 @@ class User {
     searchResults = this.favoriteRecipes.reduce((acc, recipe) => {
       let filterIngredients = recipe.ingredients.filter(ingredient => {
       return ingredientMatches.includes(ingredient.id) ? acc.push(recipe) : "No ingredient matches"
-      // && console.log('Recipe including this ingredient:', recipe.name)
+
     })
     return acc
 
@@ -83,13 +83,6 @@ class User {
     return searchResults
   }
 }
-
-    //we have an array of ingredients that match search
-    //Need to access the ids of each object in array
-    //Loop through recipes navigate through ingredient property
-    //Loop through recipe.ingredients array to find ID
-    //Return recipe object that matches / searchResults
-
 
 if (typeof module !== 'undefined') {
   module.exports = User;

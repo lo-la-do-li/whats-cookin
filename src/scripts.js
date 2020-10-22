@@ -23,6 +23,7 @@ let toCookDisplay = document.querySelector('.to-cook-recipes')
 let pantryTab = document.querySelector('.tab-pantry')
 let searchBar = document.querySelector('.search-input')
 
+
 //Functions//Event Listeners
 window.addEventListener('click', windowOnClick);
 window.addEventListener('load', onLoad);
@@ -60,6 +61,10 @@ function recipeBlockClickHandler(event) {
     let removeRecipe = event.target.closest(".recipe-block").id
     removeFromRecipesToCook(removeRecipe)
   }
+  if (event.target.classList.contains("cook-btn")) {
+    let currentRecipe = event.target.closest(".recipe-block").id
+    checkForIngredients(currentRecipe)
+  }
 }
 //MODAL HANDLERS
 function displayModal(recipeID) {
@@ -81,23 +86,23 @@ function toggleModal(event) {
 
 //WINDOW CLICK EVENTS
 function windowOnClick(event) {
-  // event.preventDefault();
+
   if (event.target === modal) {
     toggleModal();
   }
-  if(event.target === favoritesTab) {
+  if (event.target === favoritesTab) {
     event.preventDefault();
     displayFavorites()
   }
-  if(event.target === allRecipesTab) {
+  if (event.target === allRecipesTab) {
     event.preventDefault();
     displayAllView()
   }
-  if(event.target === toCookTab) {
+  if (event.target === toCookTab) {
     event.preventDefault();
     displayRecipesToCook();
   }
-  if(event.target === pantryTab) {
+  if (event.target === pantryTab) {
     event.preventDefault();
     displayPantryStock(pantry, ingredientsArray)
   }
@@ -114,12 +119,6 @@ function getRandomUser() {
   message.innerHTML = `What's Cookin' in ${user.name}'s Kitchen?`
 }
 
-function showElement(item) {
-  item.classList.remove('hidden')
-}
-function hideElement(className) {
-  className.classList.add('hidden')
-}
 
 //ALL RECIPES
 function assignRecipes(recipesArray) {
@@ -143,7 +142,7 @@ function displayRecipesAll(completeRecipeSet) {
     </figure>
     <hgroup>
     <h2>${recipe.name}</h2>
-    <h3 class="tags">${recipe.tags}</h3>
+    <h3 class="tags">${insertTags(recipe)}</h3>
     </hgroup>
     <p>
     <button class="like-btn">Like</button>
@@ -165,6 +164,15 @@ function displayRecipeIngredients(recipe, className) {
     populateModal(ingredient, className);
   });
 }
+
+function insertTags(recipe) {
+  return recipe.tags.map(tag => {
+    newTag =
+    ` ${tag}` 
+    return newTag
+  })
+}
+
 function displayRecipeInstructions(recipe, className) {
   recipe.instructions.forEach(instruction => {
     instruction =
@@ -254,7 +262,7 @@ let favorites = new Set(user.favoriteRecipes)
     </figure>
     <hgroup>
     <h2>${recipe.name}</h2>
-    <h3 class="tags">${recipe.tags}</h3>
+    <h3 class="tags">${insertTags(recipe)}</h3>
     </hgroup>
     <p>
     <button class="remove-btn">Remove</button>
@@ -282,7 +290,7 @@ favoriteDisplay.innerHTML = " "
     </figure>
     <hgroup>
     <h2>${recipe.name}</h2>
-    <h3 class="tags">${recipe.tags}</h3>
+    <h3 class="tags">${insertTags(recipe)}</h3>
     </hgroup>
     <p>
     <button class="remove-btn">Remove</button>
@@ -316,7 +324,7 @@ function formatRecipesToCook(recipesToCook) {
     </figure>
     <hgroup>
     <h2>${recipe.name}</h2>
-    <h3 class="tags">${recipe.tags}</h3>
+    <h3 class="tags">${insertTags(recipe)}</h3>
     </hgroup>
     <p>
     <button class="remove-to-cook-btn">Remove</button>
@@ -365,11 +373,17 @@ function displayUserPantry(pantry, ingredientsArray) {
   displayPantryStock(pantry, ingredientsArray);
 }
 
-// function populateShoppingList() {
-//   `<h2>Shopping List</h2>
-//   <p>Smaller Thing<br />
-//     and here<br />
-//   </p>
-//     `
-//   somethingHere.insertAdjacentHTML('afterbegin', )
-// }
+function checkForIngredients(recipe) {
+  let response = userPantry.checkPantry(recipe);
+  const questionBlock = document.querySelector('.cook-question');
+
+  if(response === true) {
+
+    const canCook = 
+    `<a> You can cook this recipe!</a>`
+  } else {
+    const canCook =
+    `<a> You can not cook this recipe</a>`
+  }
+  questionBlock.insertAdjacentHTML('beforeend', canCook);
+}
