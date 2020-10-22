@@ -28,9 +28,6 @@ window.addEventListener('click', windowOnClick);
 window.addEventListener('load', onLoad);
 recipesDisplay.addEventListener('click', recipeBlockClickHandler)
 searchBar.addEventListener('input', searchRecipes)
-// favoritesView.addEventListener('click', displayFavorites)
-//Functions
-
 
 function onLoad() {
   getRandomUser();
@@ -116,10 +113,7 @@ function getRandomUser() {
   let message = document.querySelector('.whats-cookin-message');
   message.innerHTML = `What's Cookin' in ${user.name}'s Kitchen?`
 }
-//FOR REFACTOR:
-// function showElement(className) {
-//   document.querySelector(`.${className}`).remove('hidden')
-// }
+
 function showElement(item) {
   item.classList.remove('hidden')
 }
@@ -140,7 +134,6 @@ function displayAllView() {
 }
 
 function displayRecipesAll(completeRecipeSet) {
-  // favoriteDisplay.innerHTML = " ";
   completeRecipeSet.forEach(recipe => {
     const recipeBlock =
     `
@@ -182,9 +175,7 @@ function displayRecipeInstructions(recipe, className) {
 function populateModal(item, className) {
   document.querySelector(`.${className}`).insertAdjacentHTML('beforeend', item)
 }
-// function displayTags(item, className) {
-//   document.querySelector().insertAdjacentHTML('beforeend', item)
-// }
+
 function getIngredientName(ingredient) {
   let name;
   ingredientsData.forEach(ingredientData => {
@@ -230,11 +221,7 @@ function removeFromRecipesToCook(byeRecipe) {
 
     let nameMatches = user.searchFavoriteRecipesByName(searchInput)
     let ingredientMatches = user.searchFavoriteRecipesByIngredient(searchInput)
-    // console.log(ingredientMatches)
 
-    // recipeMatches.concat(user.searchFavoriteRecipesByIngredient(searchInput))
-    // console.log('nameMatches:', nameMatches)
-    // console.log(typeof ingredientMatches)
       if (typeof nameMatches === 'object' && nameMatches.length !== 0) {
       recipeMatches = nameMatches.concat()
       }
@@ -378,11 +365,11 @@ function displayUserPantry(pantry, ingredientsArray) {
   displayPantryStock(pantry, ingredientsArray);
 }
 
-function populateShoppingList() {
-  `<h2>Shopping List</h2>
-  <p>Smaller Thing<br />
-    and here<br />
-  </p>
-    `
-  somethingHere.insertAdjacentHTML('afterbegin', )
-}
+// function populateShoppingList() {
+//   `<h2>Shopping List</h2>
+//   <p>Smaller Thing<br />
+//     and here<br />
+//   </p>
+//     `
+//   somethingHere.insertAdjacentHTML('afterbegin', )
+// }
