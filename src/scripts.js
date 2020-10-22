@@ -5,6 +5,8 @@ let completeRecipeSet;
 let removeButton;
 let addToCookButton;
 let cookButton;
+let removeToCookButton;
+
 //Query Selectors
 let allRecipes = document.querySelector('.all-recipes');
 let recipesDisplay = document.querySelector('.recipes-display');
@@ -25,29 +27,15 @@ let searchBar = document.querySelector('.search-input')
 window.addEventListener('click', windowOnClick);
 window.addEventListener('load', onLoad);
 recipesDisplay.addEventListener('click', recipeBlockClickHandler)
-searchBar.addEventListener('input', searchRecipes);
-
-// favoritesView.addEventListener('click', displayFavorites)
-//Functions
-
-
+searchBar.addEventListener('input', searchRecipes)
 
 function onLoad() {
   getRandomUser();
   completeRecipeSet = assignRecipes(recipeData)
   displayRecipesAll(completeRecipeSet)
+  displayUserPantry(userPantry, ingredientsData)
 }
 //RECIPE BUTTON HANDLERS
-
-function searchRecipes(e) {
-
-  console.log(e.target.value);
-  let searchInput = e.target.value
-  let recipeMatches = user.searchFavoriteRecipesByName(searchInput)
-
-  return displayFavorites(searchResults)
-}
-
 function recipeBlockClickHandler(event) {
   if (event.target.classList.contains("close-button")) {
     recipeInfoModal.classList.toggle("show-modal")
@@ -63,42 +51,16 @@ function recipeBlockClickHandler(event) {
   if (event.target.classList.contains("remove-btn")) {
     let removeRecipe = event.target.closest(".recipe-block").id
     removeFromFavorites(removeRecipe)
-
   }
-  if (event.target.classList.contains("add-to-cook-btn")) {
+  if (event.target.classList.contains("to-cook-btn")) {
     let faveRecipe = event.target.closest(".recipe-block").id
     addToCook(faveRecipe)
-
   }
-  if (event.target.classList.contains("cook-btn")) {
-    let cookedRecipe = event.target.closest(".recipe-block").id
-    cookedRecipe = new Recipe()
-    userPantry.checkPantry(cookedRecipe)
-
-
+  if (event.target.classList.contains("remove-to-cook-btn")) {
+    let removeRecipe = event.target.closest(".recipe-block").id
+    removeFromRecipesToCook(removeRecipe)
   }
 }
-//WINDOW CLICK EVENTS
-function windowOnClick(event) {
-event.preventDefault();
-  if (event.target === modal) {
-    toggleModal();
-  }
-  if(event.target === favoritesTab) {
-    // event.preventDefault();
-    displayFavorites()
-  }
-  if(event.target === allRecipesTab) {
-    // event.preventDefault();
-    displayAllView()
-  }
-  if(event.target === toCookTab) {
-    // event.preventDefault();
-    displayRecipesToCook();
-  }
-    //add other window-clickevent targets Here
-}
-
 //MODAL HANDLERS
 function displayModal(recipeID) {
   const foundRecipe = recipeData.find(recipe => {
@@ -117,6 +79,31 @@ function toggleModal(event) {
   modal.classList.toggle("show-modal");
 }
 
+//WINDOW CLICK EVENTS
+function windowOnClick(event) {
+  // event.preventDefault();
+  if (event.target === modal) {
+    toggleModal();
+  }
+  if(event.target === favoritesTab) {
+    event.preventDefault();
+    displayFavorites()
+  }
+  if(event.target === allRecipesTab) {
+    event.preventDefault();
+    displayAllView()
+  }
+  if(event.target === toCookTab) {
+    event.preventDefault();
+    displayRecipesToCook();
+  }
+  if(event.target === pantryTab) {
+    event.preventDefault();
+    displayPantryStock(pantry, ingredientsArray)
+  }
+
+  //add other window-clickevent targets Here
+}
 function getRandomIndex(arr) {
   return arr[Math.floor(Math.random() * arr.length)]
 }
@@ -126,9 +113,7 @@ function getRandomUser() {
   let message = document.querySelector('.whats-cookin-message');
   message.innerHTML = `What's Cookin' in ${user.name}'s Kitchen?`
 }
-// function showElement(className) {
-//   document.querySelector(`.${className}`).remove('hidden')
-// }
+
 function showElement(item) {
   item.classList.remove('hidden')
 }
@@ -149,31 +134,29 @@ function displayAllView() {
 }
 
 function displayRecipesAll(completeRecipeSet) {
-  // favoriteDisplay.innerHTML = " ";
   completeRecipeSet.forEach(recipe => {
-const recipeBlock =
-`
-  <article class="recipe-block" id="${recipe.id}">
+    const recipeBlock =
+    `
+    <article class="recipe-block" id="${recipe.id}">
     <figure>
-      <img class="recipe-image" src="${recipe.image}" alt="${recipe.name}"/>
+    <img class="recipe-image" src="${recipe.image}" alt="${recipe.name}"/>
     </figure>
     <hgroup>
-      <h2>${recipe.name}</h2>
-      <h3 class="tags">${recipe.tags}</h3>
+    <h2>${recipe.name}</h2>
+    <h3 class="tags">${recipe.tags}</h3>
     </hgroup>
     <p>
-      <button class="like-btn">Like</button>
+    <button class="like-btn">Like</button>
     </p>
-      <button class="trigger" id="trigger">Click here to see more</button>
+    <button class="trigger" id="trigger">Click here to see more</button>
     </article>
-  `
-    // <button class="remove-btn">Remove</button>
+    `
     allRecipes.insertAdjacentHTML('beforeend', recipeBlock);
-    });
-  };
+  });
+};
 
 function displayRecipeIngredients(recipe, className) {
-    recipe.ingredients.forEach(ingredient => {
+  recipe.ingredients.forEach(ingredient => {
     ingredient =
     `
     ${getIngredientName(ingredient)}:
@@ -192,9 +175,7 @@ function displayRecipeInstructions(recipe, className) {
 function populateModal(item, className) {
   document.querySelector(`.${className}`).insertAdjacentHTML('beforeend', item)
 }
-// function displayTags(item, className) {
-//   document.querySelector().insertAdjacentHTML('beforeend', item)
-// }
+
 function getIngredientName(ingredient) {
   let name;
   ingredientsData.forEach(ingredientData => {
@@ -204,7 +185,6 @@ function getIngredientName(ingredient) {
   })
   return name;
 }
-
 function displayCostOfRecipe(recipe, className) {
   recipe = new Recipe(recipe)
   let cost = `¢${recipe.getCostOfRecipe()}`
@@ -214,16 +194,45 @@ function displayCostOfRecipe(recipe, className) {
 //FAVORITES
 function addToFavorites(newRecipe) {
   const foundRecipe = recipeData.find(recipe => {
-     return recipe.id === +newRecipe
+    return recipe.id === +newRecipe
   })
-    user.addFavoriteRecipes(foundRecipe)
+  user.addFavoriteRecipes(foundRecipe)
 }
-function removeFromFavorites(newRecipe) {
+function removeFromFavorites(byeRecipe) {
   let removedRecipe = recipeData.find(recipe => {
-     return recipe.id === +newRecipe
+    return recipe.id === +byeRecipe
   })
-    user.removeFavoriteRecipes(removedRecipe)
+  user.removeFavoriteRecipes(removedRecipe)
+  displayFavoritesView(user.favoriteRecipes)
 }
+function removeFromRecipesToCook(byeRecipe) {
+  let removedRecipe = recipeData.find(recipe => {
+    return recipe.id === +byeRecipe
+  })
+    removedRecipe = user.recipesToCook.indexOf(removedRecipe)
+    user.recipesToCook.splice(removedRecipe, 1)
+    displayRecipesToCook(user.recipesToCook)
+  }
+
+  function searchRecipes(e) {
+
+    let searchInput = e.target.value
+    let recipeMatches = []
+
+    let nameMatches = user.searchFavoriteRecipesByName(searchInput)
+    let ingredientMatches = user.searchFavoriteRecipesByIngredient(searchInput)
+
+      if (typeof nameMatches === 'object' && nameMatches.length !== 0) {
+      recipeMatches = nameMatches.concat()
+      }
+
+      if (typeof ingredientMatches === 'object' && ingredientMatches.length !== 0) {
+        console.log(typeof ingredientMatches)
+      recipeMatches = ingredientMatches.concat()
+      }
+
+      displayFavoritesSearch(recipeMatches)
+  }
 
 function displayFavorites() {
   allRecipes.innerHTML = " ";
@@ -234,69 +243,133 @@ function displayFavorites() {
 }
 
 function displayFavoritesView(favoriteRecipes) {
-  user.favoriteRecipes.forEach(recipe => {
-let favoritesBlock = new Set()
-favoritesBlock =
-`
-  <article class="recipe-block" id="${recipe.id}">
+favoriteDisplay.innerHTML = " "
+let favorites = new Set(user.favoriteRecipes)
+  favorites.forEach(recipe => {
+    const favoritesBlock =
+    `
+    <article class="recipe-block" id="${recipe.id}">
     <figure>
-      <img class="recipe-image" src="${recipe.image}" alt="${recipe.name}"/>
+    <img class="recipe-image" src="${recipe.image}" alt="${recipe.name}"/>
     </figure>
     <hgroup>
-      <h2>${recipe.name}</h2>
-      <h3 class="tags">${recipe.tags}</h3>
+    <h2>${recipe.name}</h2>
+    <h3 class="tags">${recipe.tags}</h3>
     </hgroup>
     <p>
-      <button class="remove-btn">Remove</button>
-      <button class="add-to-cook-btn">Add to Recipes to Cook</button>
+    <button class="remove-btn">Remove</button>
+    <button class="to-cook-btn">Add to Recipes to Cook</button>
     </p>
-      <button class="trigger" id="trigger">Click here to see more</button>
+    <button class="trigger" id="trigger">Click here to see more</button>
     </article>
-  `
-    // <button class ="like-btn">Like</button>
-    // document.querySelector('.like-btn').classList.add('hidden');
-    addToCookButton = document.querySelector('.add-to-cook-btn');
-    favoriteDisplay.insertAdjacentHTML('beforeend', favoritesBlock);
-    });
-  };
-
-  //RECIPES TO COOK
-  function addToCook(faveRecipe) {
-    const foundRecipe = recipeData.find(recipe => {
-       return recipe.id === +faveRecipe
-    })
-      user.addRecipiesToCook(foundRecipe)
-  }
-
-  function formatRecipesToCook(recipesToCook) {
-  user.recipesToCook.forEach(recipe => {
-  const toCookBlock =
-  `
-    <article class="recipe-block" id="${recipe.id}">
-      <figure>
-        <img class="recipe-image" src="${recipe.image}" alt="${recipe.name}"/>
-      </figure>
-      <hgroup>
-        <h2>${recipe.name}</h2>
-        <h3 class="tags">${recipe.tags}</h3>
-      </hgroup>
-      <p>
-        <button class="remove-btn">Remove</button>
-        <button class="cook-btn">Cook this Recipe</button>
-      </p>
-        <button class="trigger" id="trigger">Click here to see more</button>
-      </article>
     `
-      cookButton = document.querySelector('.cook-btn');
-      toCookDisplay.insertAdjacentHTML('afterend', toCookBlock);
-      });
-    };
+    addToCookButton = document.querySelector('.to-cook-btn');
+    favoriteDisplay.insertAdjacentHTML('beforeend', favoritesBlock);
+  });
+};
 
-  function displayRecipesToCook() {
-    allRecipes.innerHTML = " ";
-    favoriteDisplay.innerHTML = " ";
-    allRecipesTab.classList.remove('current')
-    favoritesTab.classList.remove('current')
-    toCookTab.classList.add('current')
-    formatRecipesToCook(user.recipesToCook);
-  }
+function displayFavoritesSearch(recipeMatches) {
+let searchMatches = new Set(recipeMatches)
+favoriteDisplay.innerHTML = " "
+
+  searchMatches.forEach(recipe => {
+    console.log(recipe)
+    const searchedBlock =
+    `
+    <article class="recipe-block" id="${recipe.id}">
+    <figure>
+    <img class="recipe-image" src="${recipe.image}" alt="${recipe.name}"/>
+    </figure>
+    <hgroup>
+    <h2>${recipe.name}</h2>
+    <h3 class="tags">${recipe.tags}</h3>
+    </hgroup>
+    <p>
+    <button class="remove-btn">Remove</button>
+    <button class="to-cook-btn">Add to Recipes to Cook</button>
+    </p>
+    <button class="trigger" id="trigger">Click here to see more</button>
+    </article>
+    `
+    addToCookButton = document.querySelector('.to-cook-btn');
+    favoriteDisplay.insertAdjacentHTML('beforeend', searchedBlock);
+  });
+};
+
+//RECIPES TO COOK
+function addToCook(faveRecipe) {
+  const foundRecipe = recipeData.find(recipe => {
+    return recipe.id === +faveRecipe
+  })
+  user.addRecipiesToCook(foundRecipe)
+}
+
+function formatRecipesToCook(recipesToCook) {
+  toCookDisplay.innerHTML = " "
+  let toCooks = new Set(user.recipesToCook)
+  toCooks.forEach(recipe => {
+    const toCookBlock =
+    `
+    <article class="recipe-block" id="${recipe.id}">
+    <figure>
+    <img class="recipe-image" src="${recipe.image}" alt="${recipe.name}"/>
+    </figure>
+    <hgroup>
+    <h2>${recipe.name}</h2>
+    <h3 class="tags">${recipe.tags}</h3>
+    </hgroup>
+    <p>
+    <button class="remove-to-cook-btn">Remove</button>
+    <button class="cook-btn">Cook this Recipe</button>
+    </p>
+    <button class="trigger" id="trigger">Click here to see more</button>
+    </article>
+    `
+    removeToCookButton = document.querySelector('remove-to-cook-btn');
+    cookButton = document.querySelector('.cook-btn');
+    toCookDisplay.insertAdjacentHTML('afterbegin', toCookBlock);
+  });
+};
+
+function displayRecipesToCook() {
+  allRecipes.innerHTML = " ";
+  favoriteDisplay.innerHTML = " ";
+  allRecipesTab.classList.remove('current')
+  favoritesTab.classList.remove('current')
+  toCookTab.classList.add('current')
+  formatRecipesToCook(user.recipesToCook);
+}
+
+function displayPantryStock(pantry, ingredientsArray) {
+  const userPantryBlock = document.querySelector('.user-pantry');
+  userPantryBlock.innerHTML = '<h3>What\'s in Stock?</h3>';
+  pantry.pantry.forEach(function(item) {
+    const itemsInStock =
+    `
+    <a>${itemNameById(item.ingredient, ingredientsArray)}, ${item.amount}</a>
+    `
+    userPantryBlock.insertAdjacentHTML('beforeend', itemsInStock);
+  })
+}
+
+function itemNameById(itemId, ingredientsArray) {
+  let name;
+  ingredientsArray.forEach(ingredient => {
+    if (ingredient.id === itemId) {
+      name = ingredient.name
+    }
+  })
+  return name;
+}
+function displayUserPantry(pantry, ingredientsArray) {
+  displayPantryStock(pantry, ingredientsArray);
+}
+
+// function populateShoppingList() {
+//   `<h2>Shopping List</h2>
+//   <p>Smaller Thing<br />
+//     and here<br />
+//   </p>
+//     `
+//   somethingHere.insertAdjacentHTML('afterbegin', )
+// }

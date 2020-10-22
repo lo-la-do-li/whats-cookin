@@ -194,7 +194,7 @@ describe('User', () => {
     user1.addFavoriteRecipes(recipe1)
     user1.addFavoriteRecipes(recipe2)
 
-    expect(user1.findIngredients('Wheat flour')).to.deep.equal([{ id: 20081, name: 'wheat flour', estimatedCostInCents: 142}])
+    expect(user1.findIngredients('Wheat flour')).to.deep.equal([{ id: 20081, name: 'wheat flour', estimatedCostInCents: 142}, {estimatedCostInCents: 865, id: 20011, name: "buck wheat flour"}])
   });
 
   it('should search my favorite recipies by ingredient', () => {
