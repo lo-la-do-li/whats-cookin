@@ -1,51 +1,20 @@
-# What's Cookin'? Starter Kit 
+## What’s Cookin’
+This application was created as a group project and it would be used for recipe tacking/ meal planning. 
 
-The details of this project are outlined in the <a href="https://frontend.turing.io/projects/whats-cookin.html" target="\__blank">project spec</a>.
+## What does it do
+When the page first loads the user take on the role of the random user whose name appears in the header along with their pantry on the right side of the page.  From the main page user scroll through a list of all of the recipes and save the ones that they like, which will then appear in their favorites tab. Users can also see the details of the recipes by clicking the “Click to see more button”. Inside of the pop-up you will find the instructions for the recipe, the ingredients, and the estimated cost in cents.  When a user clicks the “like” button the recipe will be saved to their favorite recipes tab. From the favorite recipes tab users have the option to remove recipes from their favorites or click the “Add to recipes to cook” button than that recipe will appear in the recipes to cook tab. 
+	Inside of the Recipes to cook tab users can remove the recipe if they decide not to cook it the recipie.
 
-## Set Up 
+## Tech Stack
+* Javascript
+* HTML
+* CSS
+* Mocha
+* Chai
 
-1. Within your group, decide on one person to have the project repository on their Github account. This person will *fork* this repository - on the top right corner of the page, click the fork button. 
-2. Both group members should then clone down the forked repository (make sure that everyone is added as a collaborator as well). Since you don't want your project to be named "whats-cookin-starter-kit", add an optional argument after the repo url when cloning. The command should look like this: `git clone [remote-address] [what you want to name the repo]`.
-3. Once you have cloned the repo, change into the directory and install the project dependencies. Run npm install to install project dependencies.
-4. Run open src/index.html in the terminal to see the HTML page (you should see some boilerplate HTML displayed on the page)
-5. Make sure both members of your team are collaborators on the forked repo.
+## Authors 
+ Lola Dolinsky
+@la-la-do-li
 
-## Testing 
-
-There is no boilerplate for testing in this starter-kit repo. You will need to set this up yourself. However, if you ran npm install, then the tooling you need to start testing is already installed (mocha and chai).
-
-## Linting Your Code 
-
-Run the command in your terminal npm run lint to run the linter on your JavaScript code. There will be errors and warnings right from the start in this starter kit, but that's ok - the linter is still running successfully.
-
-Your linter will look only at the JavaScript files you have within the src and the test directories.
-
-
-## Data Model
-### Users
-```js
-{
-  "id": [number],
-  "name": [string],
-  "pantry": [array of objects with amount and ingredient id properties]
-},
-```
-
-### Recipes
-```js
-{
-  "ingredients" [array of objects with ingredients ids(connection to ingredients), ingredient names, and quantity data],
-  "instructions": [array of objects with instructions properties and numbered steps],
-  "name": [string],
-  "tags": [array of strings representing info about the recipes]
-}
-```
-
-### Ingredients
-```js
-{
-  "estimatedCostInCents": [number],
-  "id": [number -- connection to users and recipes],
-  "name": [string]
-}
-```
+Amanda Davidson
+@ADavidson02
