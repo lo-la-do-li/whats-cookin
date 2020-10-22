@@ -2,7 +2,7 @@ const chai = require('chai');
 const expect = chai.expect;
 
 const User = require('../src/User');
-const Recipe = require('../src/Recipe');
+
 
 describe('User', () => {
   let user1, recipe1, recipe2
@@ -32,7 +32,7 @@ describe('User', () => {
         {
           id: 595736,
           image: "https://spoonacular.com/recipeImages/595736-556x370.jpg",
-          ingredients:[
+          ingredients: [
             {
           "id": 20081,
           "quantity": {

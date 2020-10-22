@@ -17,11 +17,12 @@ body {
   background-color: #ffffff;
 }
 header {
-  color: black;
+  color: #6495ed;
   text-align: center;
   border-top: 5px;
   height: 160px;
-  background-image: url("https://i0.wp.com/www.pancan.org/wp-content/uploads/2019/08/vegetable-rainbow-733x450.jpg?fit=733%2C450&ssl=1");
+  background-image: url("/Users/amandadavidson/turing/mod_2/projects_2/whats-cookin/src/assets/lukas-blazek-f-TWhXOrLiU-unsplash (1).jpg");
+  background-size: cover;
 }
 
 h1 {
