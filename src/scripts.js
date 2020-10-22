@@ -168,7 +168,7 @@ function displayRecipeIngredients(recipe, className) {
 function insertTags(recipe) {
   return recipe.tags.map(tag => {
     newTag =
-    ` ${tag}` 
+    ` ${tag}`
     return newTag
   })
 }
@@ -244,6 +244,7 @@ function removeFromRecipesToCook(byeRecipe) {
 
 function displayFavorites() {
   allRecipes.innerHTML = " ";
+  toCookDisplay.innerHTML = " ";
   allRecipesTab.classList.remove('current')
   toCookTab.classList.remove('current')
   favoritesTab.classList.add('current')
@@ -379,7 +380,7 @@ function checkForIngredients(recipe) {
 
   if(response === true) {
 
-    const canCook = 
+    const canCook =
     `<a> You can cook this recipe!</a>`
   } else {
     const canCook =

@@ -1,4 +1,4 @@
-// const ingredientsData = require('../data/ingredients.js')
+// const ingredientsData = require('../data/ingredients.js');
 
 class User {
   constructor (user) {

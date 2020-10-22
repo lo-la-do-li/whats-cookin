@@ -17,16 +17,18 @@ body {
   background-color: #ffffff;
 }
 header {
-  color: #6495ed;
+  color: black;
   text-align: center;
   border-top: 5px;
   height: 160px;
-  background-image: url("/Users/amandadavidson/turing/mod_2/projects_2/whats-cookin/src/assets/lukas-blazek-f-TWhXOrLiU-unsplash (1).jpg");
+  background-image: url("https://images.unsplash.com/photo-1495195134817-aeb325a55b65?ixlib=rb-1.2.1&auto=format&fit=crop&w=755&q=80");
   background-size: cover;
 }
 
 h1 {
-  color: black;
+  color: #000000;
+  font-weight: bolder;
+  text-shadow: 2px 2px #ffffff;
   width: 940px;
   height: 130px;
   margin: 0 0 -50px 0;
