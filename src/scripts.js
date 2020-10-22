@@ -225,13 +225,26 @@ function removeFromRecipesToCook(byeRecipe) {
 
   function searchRecipes(e) {
 
-    console.log(e.target.value);
     let searchInput = e.target.value
-    let recipeMatches = new Set(user.searchFavoriteRecipesByName(searchInput))
-    // recipeMatches.forEach(recipe => new Recipe(recipe))
-    console.log(recipeMatches)
+    let recipeMatches = []
 
-    displayFavoritesSearch(recipeMatches)
+    let nameMatches = user.searchFavoriteRecipesByName(searchInput)
+    let ingredientMatches = user.searchFavoriteRecipesByIngredient(searchInput)
+    // console.log(ingredientMatches)
+
+    // recipeMatches.concat(user.searchFavoriteRecipesByIngredient(searchInput))
+    // console.log('nameMatches:', nameMatches)
+    // console.log(typeof ingredientMatches)
+      if (typeof nameMatches === 'object' && nameMatches.length !== 0) {
+      recipeMatches = nameMatches.concat()
+      }
+
+      if (typeof ingredientMatches === 'object' && ingredientMatches.length !== 0) {
+        console.log(typeof ingredientMatches)
+      recipeMatches = ingredientMatches.concat()
+      }
+
+      displayFavoritesSearch(recipeMatches)
   }
 
 function displayFavorites() {
@@ -267,10 +280,13 @@ let favorites = new Set(user.favoriteRecipes)
     favoriteDisplay.insertAdjacentHTML('beforeend', favoritesBlock);
   });
 };
+
 function displayFavoritesSearch(recipeMatches) {
+let searchMatches = new Set(recipeMatches)
 favoriteDisplay.innerHTML = " "
-// let searched = new Set(recipeMatches)
-  recipeMatches.forEach(recipe => {
+
+  searchMatches.forEach(recipe => {
+    console.log(recipe)
     const searchedBlock =
     `
     <article class="recipe-block" id="${recipe.id}">
@@ -360,4 +376,13 @@ function itemNameById(itemId, ingredientsArray) {
 }
 function displayUserPantry(pantry, ingredientsArray) {
   displayPantryStock(pantry, ingredientsArray);
+}
+
+function populateShoppingList() {
+  `<h2>Shopping List</h2>
+  <p>Smaller Thing<br />
+    and here<br />
+  </p>
+    `
+  somethingHere.insertAdjacentHTML('afterbegin', )
 }
