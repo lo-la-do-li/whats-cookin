@@ -37,20 +37,22 @@ class User {
   }
 
   searchFavoriteRecipesByName(nameInput) {
-    console.log(nameInput)
     let recipeMatches = new Set()
     let newInput = nameInput.toLowerCase()
     recipeMatches = this.favoriteRecipes.filter(recipe => {
       return recipe.name.toLowerCase().includes(newInput)
     })
-    console.log(recipeMatches)
     return recipeMatches.length !== 0 ? recipeMatches : "No recipes match that title"
   }
 
   findIngredients(ingredientInput) {
      let newInput = ingredientInput.toLowerCase();
-     return ingredientsData.filter(ingredient => {
-      return ingredient.name === newInput
+     let filteredIngData = ingredientsData.filter(ingredientData => {
+       return ingredientData.id ? ingredientData : undefined
+     })
+     return filteredIngData.filter(ingredient => {
+
+      return ingredient.name.includes(newInput)
      })
    }
 
@@ -60,15 +62,13 @@ class User {
     }
     let newInput = ingredientInput.toLowerCase();
     let foundIngredients = this.findIngredients(ingredientInput);
-    // console.log(foundIngredients)
 
     let searchResults = new Set()
-
     let ingredientMatches = foundIngredients.reduce((acc, ingredient) => {
+
       if (ingredient.name.includes(newInput)) {
         acc.push(ingredient.id)
       }
-      // console.log('Matching Ingredient ID:', acc)
       return acc
     }, []);
 
@@ -80,7 +80,6 @@ class User {
     return acc
 
   }, [])
-
     return searchResults
   }
 }
